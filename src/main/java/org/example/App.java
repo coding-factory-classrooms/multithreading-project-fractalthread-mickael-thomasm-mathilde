@@ -3,12 +3,26 @@ package org.example;
 import org.example.core.Conf;
 import org.example.core.Template;
 import org.example.middlewares.LoggerMiddleware;
+import org.example.utils.fractals.FractalGenerator;
 import spark.Spark;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 
 public class App {
     public static void main(String[] args) {
+        int size = 1000;
+        FractalGenerator fractalGenerator = new FractalGenerator(size, size);
+        BufferedImage image = fractalGenerator.generateImage();
+        try {
+            ImageIO.write(image, "jpg", new File("fractals/fractal.jpg"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         initialize();
 
         Spark.get("/", (req, res) -> {
