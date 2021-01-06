@@ -15,6 +15,7 @@ import java.util.HashMap;
 public class App {
     public static void main(String[] args) {
         int size = 1000;
+        long start = System.currentTimeMillis();
         FractalGenerator fractalGenerator = new FractalGenerator(size, size);
         BufferedImage image = fractalGenerator.generateImage();
         try {
@@ -22,9 +23,10 @@ public class App {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        long elapsedTime = System.currentTimeMillis() - start;
+        System.out.println("Elapsed: " + elapsedTime + " ms");
 
         initialize();
-
         Spark.get("/", (req, res) -> {
             return Template.render("home.html", new HashMap<>());
         });
