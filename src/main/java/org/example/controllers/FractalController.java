@@ -12,13 +12,14 @@ import java.io.IOException;
 public class FractalController implements HttpController {
     @Override
     public Object render(Request req, Response res) {
-        int size = 1000;
         double x = Double.parseDouble(req.queryParamOrDefault("x", "0"));
         double y = Double.parseDouble(req.queryParamOrDefault("y", "0"));
         double zoom = Double.parseDouble(req.queryParamOrDefault("zoom", "1"));
+        int width = Integer.parseInt(req.queryParamOrDefault("width", "1000"));
+        int height = Integer.parseInt(req.queryParamOrDefault("height", "1000"));
 
         res.type("image/jpeg");
-        FractalGenerator fractalGenerator = new FractalGenerator(size, size, new FractalGenerator.Position(x, y), zoom);
+        FractalGenerator fractalGenerator = new FractalGenerator(width, height, new FractalGenerator.Position(x, y), zoom);
         BufferedImage image = fractalGenerator.generateImage();
 
         return this.getFileData(image);
