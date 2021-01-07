@@ -24,7 +24,7 @@ Temps moyen: 22,929 secondes
 
 **Mémoire:** 16 Go 2133 MHz LPDDR3
 
-Temps moyen: 42,403 secondes
+### Temps moyen: 42,403 secondes
 - 43035 ms
 - 43821 ms
 - 42736 ms
@@ -34,4 +34,4 @@ Temps moyen: 42,403 secondes
 - 42033 ms
 - 41992 ms
 - 42045 ms
-- 42210 ms43035
+- 42210 ms
