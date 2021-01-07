@@ -6,17 +6,25 @@ import java.util.List;
 
 public class FractalGenerator {
 
-    private int width;
-    private int height;
+    private final int width;
+    private final int height;
+    private final Point x;
 
     public FractalGenerator(int width, int height) {
         this.width = width;
         this.height = height;
+        this.x = new Point(0, 0);
+    }
+
+    public FractalGenerator(int width, int height, Point x) {
+        this.width = width;
+        this.height = height;
+        this.x = x;
     }
 
     public BufferedImage generateImage() {
-        Mandelbrot fractal = new Mandelbrot(width, height, -1.5, 0.5, -1.0, 1.0);
-        List<List<Double>> pixels = fractal.generatePixels();
+        Mandelbrot fractal = new Mandelbrot(width, height, -1.5, 0.5, -1.0,  1.0);
+        List<List<Double>> pixels = fractal.generatePixels(this.x.start, this.x.end);
 
         double minIntensity = calcMin(pixels);
         double maxIntensity = calcMax(pixels);
@@ -60,5 +68,15 @@ public class FractalGenerator {
     private int getRGBColorForIntensity(double intensity) {
         int colorInt = (int) (255 * intensity);
         return new Color(colorInt, colorInt, colorInt).getRGB();
+    }
+
+    public static class Point {
+        public double start;
+        public double end;
+
+        public Point(double start, double end) {
+            this.start = start;
+            this.end = end;
+        }
     }
 }

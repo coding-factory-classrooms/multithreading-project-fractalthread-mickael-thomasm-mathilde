@@ -2,6 +2,63 @@
 #@mainLayout()
 <h1>Home Template</h1>
 <div>
-    <img src="/fractal" />
+    <canvas id="fractal_canvas" width="1000" height="1000"></canvas>
+
+    <script>
+        const canvas = document.getElementById("fractal_canvas");
+        const canvasContext = canvas.getContext("2d");
+
+        let x = 0;
+        let y = 0;
+
+        window.onload = () => {
+            getFractal();
+
+            window.addEventListener("keyup", (event) => {
+                if (event.code.startsWith("Arrow")) {
+                    switch (event.code) {
+                        case "ArrowUp":
+                            y--;
+                            break;
+                        case "ArrowDown":
+                            y++;
+                            break;
+                        case "ArrowLeft":
+                            x--;
+                            break;
+                        case "ArrowRight":
+                            x++;
+                            break;
+                    }
+                    console.log(`X: ${x}, Y: ${y}`);
+                    getFractal(x, y);
+                }
+            });
+        }
+
+        async function getFractal(x, y) {
+            const url = new URL("/fractal", window.location.origin);
+            console.log(isDefined(x), isDefined(y))
+            if (isDefined(x) && isDefined(y)) {
+                url.searchParams.append("x", x);
+                url.searchParams.append("y", y);
+            }
+
+            const response = await fetch(url.toString());
+            const image = await response.blob();
+
+            const htmlImage = new Image(1000, 1000)
+            htmlImage.onload = () => {
+                console.log("Image loaded")
+                canvasContext.clearRect(0, 0, canvas.width, canvas.height);
+                canvasContext.drawImage(htmlImage, 0, 0)
+            };
+            htmlImage.src = URL.createObjectURL(image);
+        }
+
+        function isDefined(variable) {
+            return variable !== undefined && variable !== null;
+        }
+    </script>
 </div>
 #end

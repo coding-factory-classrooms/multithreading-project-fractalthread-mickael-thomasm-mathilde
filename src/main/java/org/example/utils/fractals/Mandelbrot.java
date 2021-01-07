@@ -8,6 +8,7 @@ import java.util.List;
  */
 public class Mandelbrot {
     private static final int MAX_ITERATIONS = 5000;
+    private static final int MOVE_MULTIPLIER = 100;
 
     private final double xSkip;
     private final double ySkip;
@@ -25,12 +26,12 @@ public class Mandelbrot {
         this.ySkip = (endY - startY) / pixelHeight;
     }
 
-    public List<List<Double>> generatePixels() {
+    public List<List<Double>> generatePixels(double moveX, double moveY) {
         List<List<Double>> pixels = new ArrayList<>();
         for (int y = 0; y < pixelHeight; y++) {
             List<Double> row = new ArrayList<>();
             for (int x = 0; x < pixelWidth; x++) {
-                row.add(calculatePixel(x, y));
+                row.add(calculatePixel(x, y, moveX, moveY));
             }
             pixels.add(row);
         }
@@ -38,9 +39,9 @@ public class Mandelbrot {
         return pixels;
     }
 
-    public double calculatePixel(int pixelX, int pixelY) {
-        double x = x0 + pixelX * xSkip;
-        double y = y0 + pixelY * ySkip;
+    public double calculatePixel(int pixelX, int pixelY, double moveX, double moveY) {
+        double x = x0 + (pixelX + (moveX * MOVE_MULTIPLIER)) * xSkip;
+        double y = y0 + (pixelY + (moveY * MOVE_MULTIPLIER)) * ySkip;
         double ix = 0;
         double iy = 0;
         int iteration = 0;
