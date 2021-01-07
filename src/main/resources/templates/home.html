@@ -1,77 +1,45 @@
 #parse("base.html")
 #@mainLayout()
-<h1>Home Template</h1>
-<div>
-    <canvas id="fractal_canvas" width="1000" height="1000"></canvas>
+<main class="home">
+    <div class="container">
+        <canvas id="fractal_canvas"></canvas>
+         <button class="btn btn-icon resize"><i class="fas fa-expand"></i></button>
+          <button class="btn btn-icon update"><i class="fas fa-redo"></i></button>
+        <span id="loading" class="loading"><i class="fas fa-spinner fa-pulse"></i></span>
+        <div class="navigation">
+            <div class="move">
+                <button class="btn btn-icon left"><i class="fas fa-caret-left"></i></button>
+                <button class="btn btn-icon up"><i class="fas fa-caret-up"></i></button>
+                <button class="btn btn-icon down"><i class="fas fa-caret-down"></i></button>
+                <button class="btn btn-icon right"><i class="fas fa-caret-right"></i></button>
+            </div>
+            <div class="zoom">
+                 <button class="btn btn-icon zoomIn"><i class="fas fa-search-plus"></i></button>
+          <button class="btn btn-icon zoomOut"><i class="fas fa-search-minus"></i></button>
+            </div>
+        </div>
+    </div>
 
-    <script>
-        const canvas = document.getElementById("fractal_canvas");
-        const canvasContext = canvas.getContext("2d");
+    <aside>
+        <h1>Fractal</h1>
+        <p>Une figure fractale est un objet mathématique qui présente une structure similaire à toutes les échelles. C'est un objet géométrique « infiniment morcelé » dont des détails sont observables à une échelle arbitrairement choisie.</p>
+        <div class="radio-wrapper">
+            <div class="card-radio">
+                <input type="radio" name="select" id="mandelbrot" checked>
+                <label for="mandelbrot" class="card">
+                    Mandelbrot
+                </label>
+            </div>
 
-        let x = 0;
-        let y = 0;
-        let zoom = 1;
-
-        window.onload = () => {
-            getFractal();
-
-            window.addEventListener("keyup", (event) => {
-                if (event.code.startsWith("Arrow")) {
-                    switch (event.code) {
-                        case "ArrowUp":
-                            y--;
-                            break;
-                        case "ArrowDown":
-                            y++;
-                            break;
-                        case "ArrowLeft":
-                            x--;
-                            break;
-                        case "ArrowRight":
-                            x++;
-                            break;
-                    }
-                    getFractal(x, y, zoom);
-                }
-
-                if (event.code === "NumpadAdd") {
-                    zoom += 0.5
-                    if (zoom === 0) {
-                        zoom = 0.5;
-                    }
-                    getFractal(x, y, zoom);
-                } else if (event.code === "NumpadSubtract") {
-                    zoom -= 0.5
-                    if (zoom === 0) {
-                        zoom = -0.5;
-                    }
-                    getFractal(x, y, zoom);
-                }
-            });
-        }
-
-        async function getFractal(x, y, zoom) {
-            const url = new URL("/fractal", window.location.origin);
-            if (isDefined(x) && isDefined(y) && isDefined(zoom)) {
-                url.searchParams.append("x", x);
-                url.searchParams.append("y", y);
-                url.searchParams.append("zoom", zoom);
-            }
-
-            const response = await fetch(url.toString());
-            const image = await response.blob();
-
-            const htmlImage = new Image(1000, 1000)
-            htmlImage.onload = () => {
-                canvasContext.clearRect(0, 0, canvas.width, canvas.height);
-                canvasContext.drawImage(htmlImage, 0, 0)
-            };
-            htmlImage.src = URL.createObjectURL(image);
-        }
-
-        function isDefined(variable) {
-            return variable !== undefined && variable !== null;
-        }
-    </script>
-</div>
+            <div class="card-radio">
+                <input type="radio" name="select" id="julia" >
+                <label for="julia" class="card">
+                    Julia
+                </label>
+            </div>
+        </div>
+    </aside>
+    <footer></footer>
+    <script src="/js/script.js"></script>
+</main>
 #end

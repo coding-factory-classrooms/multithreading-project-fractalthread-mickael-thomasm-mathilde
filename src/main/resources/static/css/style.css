@@ -1,0 +1,174 @@
+@import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@300;400;600&display=swap');
+
+* {
+	box-sizing: border-box;
+	transition-duration: .5s;
+}
+
+body {
+padding: 0;
+margin: 0;
+font-family: "Rajdhani" , sans-serif;
+}
+
+.home {
+display: grid;
+grid-template-columns: 1fr 250px;
+}
+
+.home aside {
+background-color: #170634;
+padding: 30px 20px;
+color: #fff;
+display: flex;
+flex-direction: column;
+}
+
+.home .loading {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+  width: 50px;
+  height: 50px;
+  font-size: 50px;
+  color: #170634;
+}
+
+.home h1 {
+	text-align: center;
+}
+
+.home aside p {
+	font-size: 20px;
+	line-height: 35px;
+	font-weight: 300;
+}
+
+
+.container {
+	width: calc(100vw - 250px);
+	position: relative;
+}
+.card {
+    padding: 1rem;
+    background-color: #fff;
+    border-radius: 8px;
+    border: none;
+    margin-bottom: 15px;
+}
+
+.card-radio {
+	 display: block;
+
+}
+.radio-wrapper {
+		 margin-top: auto;
+}
+ .card-radio label {
+	 color: #fff;
+	 background-color: transparent;
+	 font-weight: 600;
+	 text-align: center;
+	 display: grid;
+	 cursor: pointer;
+	 border: 2px solid #fff;
+	 text-transform: uppercase;
+}
+ .card-radio input {
+	 display: none;
+}
+ .card-radio input:checked + label {
+	 background: rgb(255,223,48);
+background: linear-gradient(278deg, rgba(255,223,48,1) 0%, rgba(248,166,35,1) 100%);
+	 color: #170634;
+	 border: 0;
+}
+
+/* Navigation */
+
+.home .navigation {
+	position: absolute;
+	bottom: 0;
+	height: 200px;
+	width:100%;
+	display: flex;
+	justify-content: center;
+
+}
+.home .navigation .move {
+	display: grid;
+	grid-template-columns: repeat(3, 42px);
+	grid-template-rows: repeat(2, 42px);
+	gap: 5px;
+	 grid-template-areas:
+    ". up up"
+    "left center right"
+    ". down down";
+}
+
+.up {
+	grid-area: up;
+}
+.down {
+	grid-area: down;
+}
+.left {
+	grid-area: left;
+}
+.right {
+	grid-area: right;
+}
+ /* Buttons */
+
+ .btn {
+	 border-radius: 8px;
+ }
+
+ .btn-icon {
+	 height: 42px;
+	 width: 42px;
+	 background-color: #170634;
+	 color: #fff;
+	 border: 2px solid #fff;
+	 cursor: pointer;
+ }
+
+ .btn-icon:hover {
+background-color: #350f77;
+ }
+
+ .btn-icon:focus, .btn-icon:active{
+	 outline: 0;
+ }
+ .btn-icon:focus{
+	 outline: 0;
+	 box-shadow: 0;
+	background: rgb(255,223,48);
+	 border: 2px solid transparent;
+	background: linear-gradient(278deg, rgba(255,223,48,1) 0%, rgba(248,166,35,1) 100%);
+ }
+
+ .resize, .update {
+	 position: absolute;
+	 top: 50px;
+ }
+
+ .resize {
+	 left: 50px;
+ }
+ .update {
+	 right: 50px;
+ }
+
+ .zoom {
+	 display: grid;
+	 grid-template-columns: 42px;
+	 grid-template-rows: repeat(2, 42px);
+	 gap: 5px;
+	 position: absolute;
+	 top: 50px;
+	 right: 50px;
+ }
