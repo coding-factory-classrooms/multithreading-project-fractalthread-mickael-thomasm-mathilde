@@ -17,7 +17,7 @@ public class FractalController implements HttpController {
         double y = Double.parseDouble(req.queryParamOrDefault("y", "0"));
 
         res.type("image/jpeg");
-        FractalGenerator fractalGenerator = new FractalGenerator(size, size, new FractalGenerator.Point(x, y));
+        FractalGenerator fractalGenerator = new FractalGenerator(size, size, new FractalGenerator.Position(x, y));
         BufferedImage image = fractalGenerator.generateImage();
         try {
             ByteArrayOutputStream file = new ByteArrayOutputStream();

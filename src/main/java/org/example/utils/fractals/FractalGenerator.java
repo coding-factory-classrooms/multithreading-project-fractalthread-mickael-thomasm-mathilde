@@ -8,23 +8,23 @@ public class FractalGenerator {
 
     private final int width;
     private final int height;
-    private final Point x;
+    private final Position position;
 
     public FractalGenerator(int width, int height) {
         this.width = width;
         this.height = height;
-        this.x = new Point(0, 0);
+        this.position = new Position(0, 0);
     }
 
-    public FractalGenerator(int width, int height, Point x) {
+    public FractalGenerator(int width, int height, Position position) {
         this.width = width;
         this.height = height;
-        this.x = x;
+        this.position = position;
     }
 
     public BufferedImage generateImage() {
         Mandelbrot fractal = new Mandelbrot(width, height, -1.5, 0.5, -1.0,  1.0);
-        List<List<Double>> pixels = fractal.generatePixels(this.x.start, this.x.end);
+        List<List<Double>> pixels = fractal.generatePixels(this.position.start, this.position.end);
 
         double minIntensity = calcMin(pixels);
         double maxIntensity = calcMax(pixels);
@@ -70,11 +70,11 @@ public class FractalGenerator {
         return new Color(colorInt, colorInt, colorInt).getRGB();
     }
 
-    public static class Point {
+    public static class Position {
         public double start;
         public double end;
 
-        public Point(double start, double end) {
+        public Position(double start, double end) {
             this.start = start;
             this.end = end;
         }
