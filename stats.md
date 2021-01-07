@@ -35,3 +35,18 @@ Temps moyen: 22,929 secondes
 - 41992 ms
 - 42045 ms
 - 42210 ms
+
+## Mike
+
+Temps moyen: 34,493 secondes
+
+- 34176 ms
+- 33526 ms
+- 34978 ms
+- 34028 ms
+- 35973 ms
+- 34115 ms
+- 36752 ms
+- 33895 ms
+- 33584 ms
+- 33912 ms
