@@ -17,13 +17,16 @@ public class Mandelbrot {
     private final int pixelWidth;
     private final int pixelHeight;
 
-    public Mandelbrot(int pixelWidth, int pixelHeight, double startX, double endX, double startY, double endY) {
+    private final double zoom;
+
+    public Mandelbrot(int pixelWidth, int pixelHeight, double startX, double endX, double startY, double endY, double zoom) {
         this.pixelWidth = pixelWidth;
         this.pixelHeight = pixelHeight;
         this.x0 = startX;
         this.xSkip = (endX - startX) / pixelWidth;
         this.y0 = startY;
         this.ySkip = (endY - startY) / pixelHeight;
+        this.zoom = zoom;
     }
 
     public List<List<Double>> generatePixels(double moveX, double moveY) {
@@ -35,13 +38,12 @@ public class Mandelbrot {
             }
             pixels.add(row);
         }
-        System.out.println("Finished mandelbrot at y = " + y0);
         return pixels;
     }
 
     public double calculatePixel(int pixelX, int pixelY, double moveX, double moveY) {
-        double x = x0 + (pixelX + (moveX * MOVE_MULTIPLIER)) * xSkip;
-        double y = y0 + (pixelY + (moveY * MOVE_MULTIPLIER)) * ySkip;
+        double x = (x0 + (pixelX + (moveX * MOVE_MULTIPLIER)) * xSkip) / zoom;
+        double y = (y0 + (pixelY + (moveY * MOVE_MULTIPLIER)) * ySkip) / zoom;
         double ix = 0;
         double iy = 0;
         int iteration = 0;

@@ -10,6 +10,7 @@
 
         let x = 0;
         let y = 0;
+        let zoom = 1;
 
         window.onload = () => {
             getFractal();
@@ -30,18 +31,31 @@
                             x++;
                             break;
                     }
-                    console.log(`X: ${x}, Y: ${y}`);
-                    getFractal(x, y);
+                    getFractal(x, y, zoom);
+                }
+
+                if (event.code === "NumpadAdd") {
+                    zoom += 0.5
+                    if (zoom === 0) {
+                        zoom = 0.5;
+                    }
+                    getFractal(x, y, zoom);
+                } else if (event.code === "NumpadSubtract") {
+                    zoom -= 0.5
+                    if (zoom === 0) {
+                        zoom = -0.5;
+                    }
+                    getFractal(x, y, zoom);
                 }
             });
         }
 
-        async function getFractal(x, y) {
+        async function getFractal(x, y, zoom) {
             const url = new URL("/fractal", window.location.origin);
-            console.log(isDefined(x), isDefined(y))
-            if (isDefined(x) && isDefined(y)) {
+            if (isDefined(x) && isDefined(y) && isDefined(zoom)) {
                 url.searchParams.append("x", x);
                 url.searchParams.append("y", y);
+                url.searchParams.append("zoom", zoom);
             }
 
             const response = await fetch(url.toString());
@@ -49,7 +63,6 @@
 
             const htmlImage = new Image(1000, 1000)
             htmlImage.onload = () => {
-                console.log("Image loaded")
                 canvasContext.clearRect(0, 0, canvas.width, canvas.height);
                 canvasContext.drawImage(htmlImage, 0, 0)
             };

@@ -15,18 +15,23 @@ public class FractalController implements HttpController {
         int size = 1000;
         double x = Double.parseDouble(req.queryParamOrDefault("x", "0"));
         double y = Double.parseDouble(req.queryParamOrDefault("y", "0"));
+        double zoom = Double.parseDouble(req.queryParamOrDefault("zoom", "1"));
 
         res.type("image/jpeg");
-        FractalGenerator fractalGenerator = new FractalGenerator(size, size, new FractalGenerator.Position(x, y));
+        FractalGenerator fractalGenerator = new FractalGenerator(size, size, new FractalGenerator.Position(x, y), zoom);
         BufferedImage image = fractalGenerator.generateImage();
+
+        return this.getFileData(image);
+    }
+
+    private byte[] getFileData(BufferedImage data) {
         try {
             ByteArrayOutputStream file = new ByteArrayOutputStream();
-            ImageIO.write(image, "jpg", file);
+            ImageIO.write(data, "jpg", file);
             return file.toByteArray();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        System.out.println(image);
-        return "";
+        return new byte[0];
     }
 }
