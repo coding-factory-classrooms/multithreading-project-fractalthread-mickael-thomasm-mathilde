@@ -1,0 +1,88 @@
+import org.example.utils.cache.LRUCache;
+import org.junit.Assert;
+import org.junit.Test;
+
+import java.security.InvalidParameterException;
+import java.util.ArrayList;
+import java.util.List;
+
+public class LRUCacheTest {
+
+    @Test
+    public void get_all_elements() {
+        String[] strings = {
+            "Test",
+            "Test1"
+        };
+
+        List<String> expected = new ArrayList<>();
+        for (int i = strings.length - 1; i >= 0; i--) {
+            expected.add(strings[i]);
+        }
+
+        LRUCache<String> cache = new LRUCache<>();
+        for (int i = 0; i < strings.length; i++) {
+            cache.add(strings[i]);
+        }
+
+        Assert.assertEquals(expected, cache.getAll());
+    }
+
+    @Test
+    public void add_element_success() {
+        String text = "Test";
+        List<String> expected = new ArrayList<>();
+        expected.add(text);
+
+        LRUCache<String> cache = new LRUCache<>();
+        cache.add(text);
+
+        Assert.assertEquals(expected, cache.getAll());
+    }
+
+    @Test(expected = InvalidParameterException.class)
+    public void null_add_element_error() {
+        LRUCache<String> cache = new LRUCache<>();
+        cache.add(null);
+    }
+
+    @Test
+    public void add_more_than_5_element_success() {
+        String[] strings = {
+            "Test",
+            "Test1",
+            "Test2",
+            "Test3",
+            "Test4",
+            "Test5"
+        };
+
+        List<String> expected = new ArrayList<>();
+        for (int i = strings.length - 1; i > 0; i--) {
+            expected.add(strings[i]);
+        }
+
+        LRUCache<String> cache = new LRUCache<>();
+        for (int i = 0; i < strings.length; i++) {
+            cache.add(strings[i]);
+        }
+
+        Assert.assertEquals(expected, cache.getAll());
+    }
+
+    @Test
+    public void return_correct_size() {
+        String[] strings = {
+            "Test",
+            "Test1"
+        };
+
+        LRUCache<String> cache = new LRUCache<>();
+        for (int i = 0; i < strings.length; i++) {
+            cache.add(strings[i]);
+        }
+
+        Assert.assertEquals(strings.length, cache.size());
+    }
+
+}
