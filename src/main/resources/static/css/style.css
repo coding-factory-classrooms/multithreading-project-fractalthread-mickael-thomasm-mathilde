@@ -124,16 +124,25 @@ background: linear-gradient(278deg, rgba(255,223,48,1) 0%, rgba(248,166,35,1) 10
  /* Buttons */
 
  .btn {
-	 border-radius: 8px;
+	border-radius: 8px;
+	text-transform: uppercase;
+	 border: 2px solid #fff;
+	 color: #fff;
+	 background-color: #170634;
+	 cursor: pointer;
+	 font-family: "Rajdhani" , sans-serif;
+	 font-weight: 600;
+	 padding: 1rem;
+ }
+
+ .btn:not(.btn-icon) i {
+	 margin-right: 15px;
  }
 
  .btn-icon {
-	 height: 42px;
 	 width: 42px;
-	 background-color: #170634;
-	 color: #fff;
-	 border: 2px solid #fff;
-	 cursor: pointer;
+	 height: 42px;
+	 padding: 0;
  }
 
  .btn-icon:hover {
@@ -171,4 +180,8 @@ background-color: #350f77;
 	 position: absolute;
 	 top: 50px;
 	 right: 50px;
+ }
+
+ .w-100 {
+	 width: 100%;
  }
