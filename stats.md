@@ -4,7 +4,13 @@ Statistiques pour une image de 2500 x 2000 sur 10 runs consécutives sans multit
 
 ## Thomas G
 
-Temps moyen: 22,929 secondes
+**OS:** Windows 10
+
+**Processeur:** 3,89 GHz AMD Ryzen 7 3800X 8 cœurs
+
+**Mémoire:** 16 Go
+
+### Temps moyen: 22,929 secondes
 
 - 22975 ms
 - 22542 ms
