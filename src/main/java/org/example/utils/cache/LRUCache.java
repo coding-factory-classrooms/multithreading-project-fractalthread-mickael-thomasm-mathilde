@@ -7,13 +7,15 @@ import java.util.List;
 public class LRUCache<T> {
     private static final int MAX_ELEMENTS = 5;
 
+    private Object[] keys;
     private T[] elements;
 
     public LRUCache() {
+        this.keys = new String[MAX_ELEMENTS];
         this.elements = (T[]) new Object[MAX_ELEMENTS];
     }
 
-    public void add(T element) {
+    public void add(Object key, T element) {
         if (element == null) {
             throw new InvalidParameterException("The parameter 'element' must not be null");
         }
@@ -23,9 +25,21 @@ public class LRUCache<T> {
             if (elements[i] == null && elements[i - 1] == null) continue;
 
             // Move the element previous element
+            keys[i] = keys[i - 1];
             elements[i] = elements[i - 1];
         }
+
+        keys[0] = key;
         elements[0] = element;
+    }
+
+    public T get(Object key) {
+        for (int i = 0; i < keys.length; i++) {
+            if (keys[i] == null) break;
+            if (keys[i].equals(key)) return elements[i];
+        }
+
+        return null;
     }
 
     public List<T> getAll() {

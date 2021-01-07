@@ -22,7 +22,7 @@ public class LRUCacheTest {
 
         LRUCache<String> cache = new LRUCache<>();
         for (int i = 0; i < strings.length; i++) {
-            cache.add(strings[i]);
+            cache.add(String.valueOf(i), strings[i]);
         }
 
         Assert.assertEquals(expected, cache.getAll());
@@ -35,7 +35,7 @@ public class LRUCacheTest {
         expected.add(text);
 
         LRUCache<String> cache = new LRUCache<>();
-        cache.add(text);
+        cache.add("1", text);
 
         Assert.assertEquals(expected, cache.getAll());
     }
@@ -43,7 +43,7 @@ public class LRUCacheTest {
     @Test(expected = InvalidParameterException.class)
     public void null_add_element_error() {
         LRUCache<String> cache = new LRUCache<>();
-        cache.add(null);
+        cache.add("1", null);
     }
 
     @Test
@@ -64,10 +64,36 @@ public class LRUCacheTest {
 
         LRUCache<String> cache = new LRUCache<>();
         for (int i = 0; i < strings.length; i++) {
-            cache.add(strings[i]);
+            cache.add(String.valueOf(i), strings[i]);
         }
 
         Assert.assertEquals(expected, cache.getAll());
+    }
+
+    @Test
+    public void get_an_element_success() {
+        String[] strings = {
+                "Test",
+                "Test1",
+                "Test2",
+                "Test3",
+                "Test4",
+                "Test5"
+        };
+
+        LRUCache<String> cache = new LRUCache<>();
+        for (int i = 0; i < strings.length; i++) {
+            cache.add(String.valueOf(i), strings[i]);
+        }
+
+        Assert.assertEquals(strings[strings.length - 1], cache.get("5"));
+    }
+
+    @Test
+    public void get_an_inexisting_element_return_null() {
+        LRUCache<String> cache = new LRUCache<>();
+
+        Assert.assertNull(cache.get("0"));
     }
 
     @Test
@@ -79,7 +105,7 @@ public class LRUCacheTest {
 
         LRUCache<String> cache = new LRUCache<>();
         for (int i = 0; i < strings.length; i++) {
-            cache.add(strings[i]);
+            cache.add(String.valueOf(i), strings[i]);
         }
 
         Assert.assertEquals(strings.length, cache.size());
