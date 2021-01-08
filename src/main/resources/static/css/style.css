@@ -50,6 +50,7 @@ flex-direction: column;
 
 .container {
 	width: calc(100vw - 250px);
+	height: 100vh;
 	position: relative;
 }
 .card {
