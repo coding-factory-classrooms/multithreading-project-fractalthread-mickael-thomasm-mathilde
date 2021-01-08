@@ -52,6 +52,11 @@ public class LRUCache<T> {
         return items;
     }
 
+    public void reset() {
+        this.keys = new Object[MAX_ELEMENTS];
+        this.elements = (T[]) new Object[MAX_ELEMENTS];
+    }
+
     public int size() {
         int size = 0;
 

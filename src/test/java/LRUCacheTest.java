@@ -93,6 +93,22 @@ public class LRUCacheTest {
     }
 
     @Test
+    public void reset_cache_success() {
+        String[] strings = {
+            "Test"
+        };
+
+        LRUCache<String> cache = new LRUCache<>();
+        cache.add("1", strings[0]);
+
+        Assert.assertEquals(1, cache.size());
+
+        cache.reset();
+
+        Assert.assertEquals(0, cache.size());
+    }
+
+    @Test
     public void return_correct_size() {
         String[] strings = {
             "Test",
