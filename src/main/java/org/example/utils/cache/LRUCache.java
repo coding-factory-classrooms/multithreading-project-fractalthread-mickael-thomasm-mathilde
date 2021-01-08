@@ -5,13 +5,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class LRUCache<T> {
-    private static final int MAX_ELEMENTS = 5;
+    private static final int MAX_ELEMENTS = 15;
 
     private Object[] keys;
     private T[] elements;
 
     public LRUCache() {
-        this.keys = new String[MAX_ELEMENTS];
+        this.keys = new Object[MAX_ELEMENTS];
         this.elements = (T[]) new Object[MAX_ELEMENTS];
     }
 

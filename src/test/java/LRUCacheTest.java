@@ -47,15 +47,11 @@ public class LRUCacheTest {
     }
 
     @Test
-    public void add_more_than_5_element_success() {
-        String[] strings = {
-            "Test",
-            "Test1",
-            "Test2",
-            "Test3",
-            "Test4",
-            "Test5"
-        };
+    public void add_more_than_15_element_success() {
+        String[] strings = new String[16];
+        for (int i = 0; i < strings.length; i++) {
+            strings[i] = "Test" + i;
+        }
 
         List<String> expected = new ArrayList<>();
         for (int i = strings.length - 1; i > 0; i--) {
