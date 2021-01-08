@@ -9,11 +9,14 @@ import spark.Spark;
 
 public class App {
     public static void main(String[] args) {
+        HomeController homeController = new HomeController();
+        FractalController fractalController = new FractalController();
+
         initialize();
 
-        Spark.get("/", (req, res) -> new HomeController().render(req, res));
+        Spark.get("/", homeController::render);
 
-        Spark.get("/fractal", (req, res) -> new FractalController().render(req, res));
+        Spark.get("/fractal", fractalController::render);
     }
 
     static void initialize() {
