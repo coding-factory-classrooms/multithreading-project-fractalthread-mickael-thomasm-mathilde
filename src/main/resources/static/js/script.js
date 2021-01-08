@@ -44,6 +44,12 @@ window.onload = () => {
     });
 }
 
+// resize the canvas to fill browser window dynamically
+window.addEventListener('resize', () => {
+    resizeCanvas();
+    getFractal(canvas.width,canvas.height);
+});
+
 window.onunload = () => {
     imageState.unsubscribe(unsubscribeStateChange);
 }
@@ -73,12 +79,6 @@ async function getFractal(w,h,x,y,zoom) {
 function isDefined(variable) {
     return variable !== undefined && variable !== null;
 }
-
-// resize the canvas to fill browser window dynamically
-window.addEventListener('resize', () => {
-    resizeCanvas();
-    getFractal(canvas.width,canvas.height);
-});
 
 function resizeCanvas() {
     loading.hidden = false;
