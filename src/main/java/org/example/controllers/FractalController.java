@@ -1,5 +1,6 @@
 package org.example.controllers;
 
+import org.example.utils.cache.LRUCache;
 import org.example.utils.fractals.FractalGenerator;
 import spark.Request;
 import spark.Response;
@@ -10,6 +11,9 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
 public class FractalController implements HttpController {
+
+    private final LRUCache<String, byte[]> cache = new LRUCache<>();
+
     @Override
     public Object render(Request req, Response res) {
         int size = 1000;
@@ -17,11 +21,19 @@ public class FractalController implements HttpController {
         double y = Double.parseDouble(req.queryParamOrDefault("y", "0"));
         double zoom = Double.parseDouble(req.queryParamOrDefault("zoom", "1"));
 
+        String key = "xPos_" + x + "_yPos" + y + "_zoom_" + zoom;
+        if (cache.contains(key)) {
+            return cache.get(key);
+        }
+
         res.type("image/jpeg");
         FractalGenerator fractalGenerator = new FractalGenerator(size, size, new FractalGenerator.Position(x, y), zoom);
         BufferedImage image = fractalGenerator.generateImage();
 
-        return this.getFileData(image);
+        byte[] fileData = this.getFileData(image);
+        cache.add(key, fileData);
+
+        return fileData;
     }
 
     private byte[] getFileData(BufferedImage data) {
