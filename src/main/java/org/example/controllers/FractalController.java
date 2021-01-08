@@ -1,6 +1,6 @@
 package org.example.controllers;
 
-import org.example.utils.fractals.FractalGenerator;
+import org.example.utils.fractals.FractalRenderer;
 import spark.Request;
 import spark.Response;
 
@@ -18,8 +18,8 @@ public class FractalController implements HttpController {
         double zoom = Double.parseDouble(req.queryParamOrDefault("zoom", "1"));
 
         res.type("image/jpeg");
-        FractalGenerator fractalGenerator = new FractalGenerator(size, size, new FractalGenerator.Position(x, y), zoom);
-        BufferedImage image = fractalGenerator.generateImage();
+        FractalRenderer fractalRenderer = new FractalRenderer(size, size, new FractalRenderer.Position(x, y), zoom);
+        BufferedImage image = fractalRenderer.generateImage();
 
         return this.getFileData(image);
     }

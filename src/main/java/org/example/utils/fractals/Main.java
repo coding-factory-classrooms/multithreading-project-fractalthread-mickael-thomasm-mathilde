@@ -9,10 +9,11 @@ public class Main {
     public static void main(String[] args) {
         int width = 2500;
         int height = 2000;
+
         for(int i = 0; i < 10; i++) {
             long start = System.currentTimeMillis();
-            FractalGenerator fractalGenerator = new FractalGenerator(width, height);
-            BufferedImage image = fractalGenerator.generateImage();
+            FractalRenderer fractalRenderer = new FractalRenderer(width, height);
+            BufferedImage image = fractalRenderer.generateImage();
             try {
                 ImageIO.write(image, "jpg", new File("fractals/fractal.jpg"));
             } catch (IOException e) {
