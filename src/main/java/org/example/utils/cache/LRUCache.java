@@ -4,18 +4,18 @@ import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LRUCache<T> {
+public class LRUCache<T, U> {
     private static final int MAX_ELEMENTS = 15;
 
-    private Object[] keys;
-    private T[] elements;
+    private T[] keys;
+    private U[] elements;
 
     public LRUCache() {
-        this.keys = new Object[MAX_ELEMENTS];
-        this.elements = (T[]) new Object[MAX_ELEMENTS];
+        this.keys = (T[]) new Object[MAX_ELEMENTS];
+        this.elements = (U[]) new Object[MAX_ELEMENTS];
     }
 
-    public void add(Object key, T element) {
+    public void add(T key, U element) {
         if (element == null) {
             throw new InvalidParameterException("The parameter 'element' must not be null");
         }
@@ -33,7 +33,7 @@ public class LRUCache<T> {
         elements[0] = element;
     }
 
-    public T get(Object key) {
+    public U get(T key) {
         for (int i = 0; i < keys.length; i++) {
             if (keys[i] == null) break;
             if (keys[i].equals(key)) return elements[i];
@@ -42,25 +42,32 @@ public class LRUCache<T> {
         return null;
     }
 
-    public List<T> getAll() {
-        List<T> items = new ArrayList<>();
+    public List<U> getAll() {
+        List<U> items = new ArrayList<>();
 
-        for (T item: elements) {
+        for (U item: elements) {
             if (item != null) items.add(item);
         }
 
         return items;
     }
 
+    public boolean contains(T key) {
+        for (T innerKey: keys) {
+            if (innerKey != null && innerKey.equals(key)) return true;
+        }
+        return false;
+    }
+
     public void reset() {
-        this.keys = new Object[MAX_ELEMENTS];
-        this.elements = (T[]) new Object[MAX_ELEMENTS];
+        this.keys = (T[]) new Object[MAX_ELEMENTS];
+        this.elements = (U[]) new Object[MAX_ELEMENTS];
     }
 
     public int size() {
         int size = 0;
 
-        for (T item: elements) {
+        for (U item: elements) {
             if (item != null) size++;
         }
 
