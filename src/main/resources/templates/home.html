@@ -1,21 +1,21 @@
 #parse("base.html")
 #@mainLayout()
-<main class="home">
+<main id="home" class="home">
     <div class="container">
         <canvas id="fractal_canvas"></canvas>
-         <button class="btn btn-icon resize"><i class="fas fa-expand"></i></button>
-          <button class="btn btn-icon update"><i class="fas fa-redo"></i></button>
+        <button id="fullscreen-btn" class="btn btn-icon resize"><i class="fas fa-expand"></i></button>
+        <button id="redo-btn" class="btn btn-icon update"><i class="fas fa-redo"></i></button>
         <span id="loading" class="loading"><i class="fas fa-spinner fa-pulse"></i></span>
         <div class="navigation">
             <div class="move">
-                <button class="btn btn-icon left"><i class="fas fa-caret-left"></i></button>
-                <button class="btn btn-icon up"><i class="fas fa-caret-up"></i></button>
-                <button class="btn btn-icon down"><i class="fas fa-caret-down"></i></button>
-                <button class="btn btn-icon right"><i class="fas fa-caret-right"></i></button>
+                <button id="left-btn" class="btn btn-icon left"><i class="fas fa-caret-left"></i></button>
+                <button id="up-btn" class="btn btn-icon up"><i class="fas fa-caret-up"></i></button>
+                <button id="down-btn" class="btn btn-icon down"><i class="fas fa-caret-down"></i></button>
+                <button id="right-btn" class="btn btn-icon right"><i class="fas fa-caret-right"></i></button>
             </div>
             <div class="zoom">
-                 <button class="btn btn-icon zoomIn"><i class="fas fa-search-plus"></i></button>
-          <button class="btn btn-icon zoomOut"><i class="fas fa-search-minus"></i></button>
+                <button id="zoom-in-btn" class="btn btn-icon zoomIn"><i class="fas fa-search-plus"></i></button>
+                <button id="zoom-out-btn" class="btn btn-icon zoomOut"><i class="fas fa-search-minus"></i></button>
             </div>
         </div>
     </div>
@@ -45,5 +45,6 @@
     <script src="/js/reducers/move_reducer.js"></script>
     <script src="/js/reducers/zoom_reducer.js"></script>
     <script src="/js/script.js"></script>
+    <script src="/js/buttons_handler.js"></script>
 </main>
 #end
