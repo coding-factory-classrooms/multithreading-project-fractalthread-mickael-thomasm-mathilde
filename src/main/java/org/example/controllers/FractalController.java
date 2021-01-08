@@ -1,5 +1,6 @@
 package org.example.controllers;
 
+import org.example.utils.cache.LRUCache;
 import org.example.utils.fractals.FractalRenderer;
 import spark.Request;
 import spark.Response;
@@ -27,7 +28,7 @@ public class FractalController implements HttpController {
         }
 
         res.type("image/jpeg");
-        FractalRenderer fractalRenderer = new FractalRenderer(size, size, new FractalRenderer.Position(x, y), zoom);
+        FractalRenderer fractalRenderer = new FractalRenderer(width, height, new FractalRenderer.Position(x, y), zoom);
         BufferedImage image = fractalRenderer.generateImage();
 
         byte[] fileData = this.getFileData(image);
