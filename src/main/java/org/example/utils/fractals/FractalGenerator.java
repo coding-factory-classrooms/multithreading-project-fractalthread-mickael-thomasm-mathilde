@@ -1,85 +1,40 @@
 package org.example.utils.fractals;
 
-import java.awt.*;
-import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 public class FractalGenerator {
 
-    private final int width;
-    private final int height;
-    private final Position position;
-    private final double zoom;
+    private final int pixelWidth;
+    private final int pixelHeight;
 
-    public FractalGenerator(int width, int height) {
-        this.width = width;
-        this.height = height;
-        this.position = new Position(0, 0);
-        this.zoom = 1;
+    public FractalGenerator(int pixelWidth, int pixelHeight) {
+        this.pixelWidth = pixelWidth;
+        this.pixelHeight = pixelHeight;
     }
 
-    public FractalGenerator(int width, int height, Position position, double zoom) {
-        this.width = width;
-        this.height = height;
-        this.position = position;
-        this.zoom = zoom;
-    }
+    public List<List<Double>> generatePixels(double moveX, double moveY, double zoom) {
+        List<Future<List<Double>>> futurMandel = new ArrayList<>();
+        ExecutorService executorService = Executors.newFixedThreadPool(6);
+        for (int y = 0; y < pixelHeight; y++) {
+            Mandelbrot task = new Mandelbrot(y,new Mandelbrot.Size(pixelWidth,pixelHeight),-1.5,0.5,-1.0,1.0, new Mandelbrot.Move(moveX,moveY), zoom);
+            futurMandel.add(executorService.submit(task));
+        }
+        List<List<Double>> pixel = new ArrayList<>();
 
-    public BufferedImage generateImage() {
-        Mandelbrot fractal = new Mandelbrot(width, height, -1.5, 0.5, -1.0,  1.0, zoom);
-        List<List<Double>> pixels = fractal.generatePixels(this.position.start, this.position.end);
-
-        double minIntensity = calcMin(pixels);
-        double maxIntensity = calcMax(pixels);
-
-        BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
-        for (int y = 0; y < pixels.size(); y++) {
-            List<Double> xs = pixels.get(y);
-            for (int x = 0; x < xs.size(); x++) {
-                double intensity = this.getIntensityForPixel(xs.get(x), minIntensity, maxIntensity);
-                image.setRGB(x, y, this.getRGBColorForIntensity(intensity));
+        for (Future<List<Double>> task : futurMandel ) {
+            List<Double> row = null;
+            try {
+                row = task.get();
+            } catch (InterruptedException | ExecutionException  e) {
+                e.printStackTrace();
             }
+            pixel.add(row);
         }
-
-        return image;
-    }
-
-    private double calcMin(List<List<Double>> pixels) {
-        double minIntensity = 1;
-        for (List<Double> row : pixels) {
-            for (double col : row) {
-                minIntensity = Math.min(minIntensity, col);
-            }
-        }
-        return minIntensity;
-    }
-
-    private double calcMax(List<List<Double>> pixels) {
-        double maxIntensity = 1;
-        for (List<Double> row : pixels) {
-            for (double col : row) {
-                maxIntensity = Math.max(maxIntensity, col);
-            }
-        }
-        return maxIntensity;
-    }
-
-    private double getIntensityForPixel(double value, double minIntensity, double maxIntensity) {
-        return (value - minIntensity) / (maxIntensity - minIntensity);
-    }
-
-    private int getRGBColorForIntensity(double intensity) {
-        int colorInt = (int) (255 * intensity);
-        return new Color(colorInt, colorInt, colorInt).getRGB();
-    }
-
-    public static class Position {
-        public double start;
-        public double end;
-
-        public Position(double start, double end) {
-            this.start = start;
-            this.end = end;
-        }
+        return pixel;
     }
 }

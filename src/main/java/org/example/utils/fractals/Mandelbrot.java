@@ -2,11 +2,12 @@ package org.example.utils.fractals;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Callable;
 
 /**
  * Source: https://gist.github.com/dackerman/7bc682d41ce632602af9e1a9858c82fc
  */
-public class Mandelbrot {
+public class Mandelbrot implements Callable<List<Double>>{
     private static final int MAX_ITERATIONS = 5000;
     private static final int MOVE_MULTIPLIER = 100;
 
@@ -14,31 +15,23 @@ public class Mandelbrot {
     private final double ySkip;
     private final double x0;
     private final double y0;
-    private final int pixelWidth;
-    private final int pixelHeight;
+    private final Size size;
+    private final Move move;
 
     private final double zoom;
+    private final int y;
 
-    public Mandelbrot(int pixelWidth, int pixelHeight, double startX, double endX, double startY, double endY, double zoom) {
-        this.pixelWidth = pixelWidth;
-        this.pixelHeight = pixelHeight;
+    //ExecutorService threadPool = Executors.newFixedThreadPool(6);
+    
+    public Mandelbrot(int y, Size size, double startX, double endX, double startY, double endY, Move move, double zoom) {
+        this.y = y;
+        this.size = size;
         this.x0 = startX;
-        this.xSkip = (endX - startX) / pixelWidth;
+        this.move = move;
+        this.xSkip = (endX - startX) / size.width;
         this.y0 = startY;
-        this.ySkip = (endY - startY) / pixelHeight;
+        this.ySkip = (endY - startY) / size.height;
         this.zoom = zoom;
-    }
-
-    public List<List<Double>> generatePixels(double moveX, double moveY) {
-        List<List<Double>> pixels = new ArrayList<>();
-        for (int y = 0; y < pixelHeight; y++) {
-            List<Double> row = new ArrayList<>();
-            for (int x = 0; x < pixelWidth; x++) {
-                row.add(calculatePixel(x, y, moveX, moveY));
-            }
-            pixels.add(row);
-        }
-        return pixels;
     }
 
     public double calculatePixel(int pixelX, int pixelY, double moveX, double moveY) {
@@ -54,5 +47,35 @@ public class Mandelbrot {
             iteration++;
         }
         return Math.log(iteration) / Math.log(MAX_ITERATIONS);
+    }
+
+    @Override
+    public List<Double> call() throws Exception {
+        List<Double> row = new ArrayList<>();
+        for (int x = 0; x < size.width; x++) {
+            row.add(calculatePixel(x, y, move.moveX, move.moveY));
+        }
+        return row;
+    }
+
+    public static class Size {
+        public final int width;
+        public final int height;
+
+        public Size(int width, int height) {
+            this.width = width;
+            this.height = height;
+        }
+    }
+
+    public static class Move
+    {
+        public final double moveX;
+        public final double moveY;
+
+        public Move(double moveX, double moveY) {
+            this.moveX = moveX;
+            this.moveY = moveY;
+        }
     }
 }
