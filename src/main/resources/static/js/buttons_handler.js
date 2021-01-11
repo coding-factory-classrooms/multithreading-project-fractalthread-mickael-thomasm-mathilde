@@ -8,6 +8,7 @@ const zoomInButton = document.getElementById("zoom-in-btn");
 const zoomOutButton = document.getElementById("zoom-out-btn");
 const fullscreenButton = document.getElementById("fullscreen-btn");
 const undoButton = document.getElementById("undo-btn");
+const exportButton = document.getElementById("export-btn");
 
 const ACTION_TYPE = {
     MOVE: "move",
@@ -24,6 +25,16 @@ zoomInButton.addEventListener("click", makeAction(ACTION_TYPE.ZOOM, ZoomActions.
 zoomOutButton.addEventListener("click", makeAction(ACTION_TYPE.ZOOM, ZoomActions.ZOOM_OUT));
 fullscreenButton.addEventListener("click", makeAction(ACTION_TYPE.FULLSCREEN));
 undoButton.addEventListener("click", makeAction(ACTION_TYPE.UNDO));
+
+exportButton.addEventListener("click", () => {
+    const data = canvas
+        .toDataURL("image/jpg")
+        .replace(/^data:image\/png/,'data:application/octet-stream');
+    const a = document.createElement("a");
+    a.setAttribute("download", "fractal.png");
+    a.setAttribute("href", data);
+    a.click();
+});
 
 function makeAction(type, action) {
     return () => {

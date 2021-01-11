@@ -21,22 +21,22 @@ window.onload = () => {
     window.addEventListener("keyup", (event) => {
         switch (event.code) {
             case "ArrowUp":
-                moveReducer(imageState.state, MoveActions.UP)
+                moveReducer(imageState, MoveActions.UP)
                 break;
             case "ArrowDown":
-                moveReducer(imageState.state, MoveActions.DOWN)
+                moveReducer(imageState, MoveActions.DOWN)
                 break;
             case "ArrowLeft":
-                moveReducer(imageState.state, MoveActions.LEFT)
+                moveReducer(imageState, MoveActions.LEFT)
                 break;
             case "ArrowRight":
-                moveReducer(imageState.state, MoveActions.RIGHT)
+                moveReducer(imageState, MoveActions.RIGHT)
                 break;
             case "NumpadAdd":
-                zoomReducer(imageState.state, MoveActions.ZOOM_IN);
+                zoomReducer(imageState, MoveActions.ZOOM_IN);
                 break;
             case "NumpadSubstract":
-                zoomReducer(imageState.state, MoveActions.ZOOM_OUT);
+                zoomReducer(imageState, MoveActions.ZOOM_OUT);
                 break;
         }
     });
