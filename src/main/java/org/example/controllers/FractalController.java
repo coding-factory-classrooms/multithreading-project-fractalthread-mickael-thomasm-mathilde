@@ -12,7 +12,7 @@ import java.io.IOException;
 
 public class FractalController implements HttpController {
 
-    private final LRUCache<String, byte[]> cache = new LRUCache<>();
+    private final LRUCache<String, byte[]> cache = new LRUCache<>(500);
 
     @Override
     public Object render(Request req, Response res) {

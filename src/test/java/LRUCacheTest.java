@@ -20,7 +20,7 @@ public class LRUCacheTest {
             expected.add(strings[i]);
         }
 
-        LRUCache<String, String> cache = new LRUCache<>();
+        LRUCache<String, String> cache = new LRUCache<>(15);
         for (int i = 0; i < strings.length; i++) {
             cache.add(String.valueOf(i), strings[i]);
         }
@@ -34,7 +34,7 @@ public class LRUCacheTest {
         List<String> expected = new ArrayList<>();
         expected.add(text);
 
-        LRUCache<String, String> cache = new LRUCache<>();
+        LRUCache<String, String> cache = new LRUCache<>(1);
         cache.add("1", text);
 
         Assert.assertEquals(expected, cache.getAll());
@@ -42,7 +42,7 @@ public class LRUCacheTest {
 
     @Test(expected = InvalidParameterException.class)
     public void null_add_element_error() {
-        LRUCache<String, String> cache = new LRUCache<>();
+        LRUCache<String, String> cache = new LRUCache<>(1);
         cache.add("1", null);
     }
 
@@ -58,7 +58,7 @@ public class LRUCacheTest {
             expected.add(strings[i]);
         }
 
-        LRUCache<String, String> cache = new LRUCache<>();
+        LRUCache<String, String> cache = new LRUCache<>(15);
         for (int i = 0; i < strings.length; i++) {
             cache.add(String.valueOf(i), strings[i]);
         }
@@ -77,7 +77,7 @@ public class LRUCacheTest {
                 "Test5"
         };
 
-        LRUCache<String, String> cache = new LRUCache<>();
+        LRUCache<String, String> cache = new LRUCache<>(15);
         for (int i = 0; i < strings.length; i++) {
             cache.add(String.valueOf(i), strings[i]);
         }
@@ -87,7 +87,7 @@ public class LRUCacheTest {
 
     @Test
     public void get_an_inexisting_element_return_null() {
-        LRUCache<String, String> cache = new LRUCache<>();
+        LRUCache<String, String> cache = new LRUCache<>(15);
 
         Assert.assertNull(cache.get("0"));
     }
@@ -98,7 +98,7 @@ public class LRUCacheTest {
             "Test"
         };
 
-        LRUCache<String, String> cache = new LRUCache<>();
+        LRUCache<String, String> cache = new LRUCache<>(15);
         cache.add("1", strings[0]);
 
         Assert.assertEquals(1, cache.size());
@@ -114,7 +114,7 @@ public class LRUCacheTest {
             "Test"
         };
 
-        LRUCache<String, String> cache = new LRUCache<>();
+        LRUCache<String, String> cache = new LRUCache<>(15);
 
         Assert.assertFalse(cache.contains("1"));
         cache.add("1", strings[0]);
@@ -128,12 +128,29 @@ public class LRUCacheTest {
             "Test1"
         };
 
-        LRUCache<String, String> cache = new LRUCache<>();
+        LRUCache<String, String> cache = new LRUCache<>(15);
         for (int i = 0; i < strings.length; i++) {
             cache.add(String.valueOf(i), strings[i]);
         }
 
         Assert.assertEquals(strings.length, cache.size());
+    }
+
+    @Test
+    public void should_reset_the_cache() {
+        String[] strings = {
+                "Test",
+                "Test1"
+        };
+
+        LRUCache<String, String> cache = new LRUCache<>(15);
+        for (int i = 0; i < strings.length; i++) {
+            cache.add(String.valueOf(i), strings[i]);
+        }
+
+        Assert.assertEquals(strings.length, cache.size());
+        cache.reset();
+        Assert.assertEquals(0, cache.size());
     }
 
 }
