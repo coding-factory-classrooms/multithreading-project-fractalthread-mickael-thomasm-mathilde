@@ -4,7 +4,7 @@
     <div class="container">
         <canvas id="fractal_canvas"></canvas>
         <button id="fullscreen-btn" class="btn btn-icon resize"><i class="fas fa-expand"></i></button>
-        <button id="redo-btn" class="btn btn-icon update"><i class="fas fa-redo"></i></button>
+        <button id="undo-btn" class="btn btn-icon update"><i class="fas fa-undo"></i></button>
         <span id="loading" class="loading"><i class="fas fa-spinner fa-pulse"></i></span>
         <div class="navigation">
             <div class="move">
@@ -41,9 +41,13 @@
         </div>
     </aside>
     <footer></footer>
-    <script src="/js/store.js"></script>
+    <!--  State management  -->
+    <script src="/js/state_management/snapshot.js"></script>
+    <script src="/js/state_management/state.js"></script>
+    <script src="/js/state_management/store.js"></script>
     <script src="/js/reducers/move_reducer.js"></script>
     <script src="/js/reducers/zoom_reducer.js"></script>
+
     <script src="/js/script.js"></script>
     <script src="/js/buttons_handler.js"></script>
 </main>

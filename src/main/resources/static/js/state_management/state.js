@@ -1,5 +1,17 @@
-class Store {
+/**
+ * @class State
+ * @classdesc This class will store the state of the app and notify all registered callbacks
+ */
+class State {
+    /**
+     * @private
+     */
     state;
+
+    /**
+     * @private
+     * @type {Set<Function>}
+     */
     observers = new Set();
 
     constructor(initialState) {
@@ -7,7 +19,6 @@ class Store {
     }
 
     /**
-     * @private
      * @param newState
      * @returns {{width: number, x: number, y: number, zoom: number, height: number}}
      */
@@ -33,5 +44,11 @@ class Store {
         this.observers.forEach((observer) => {
             observer(this.state);
         });
+    }
+
+    save = () => new StateSnapshot(this.state);
+
+    restore = (snapshot) => {
+        this.setState(snapshot.getState());
     }
 }

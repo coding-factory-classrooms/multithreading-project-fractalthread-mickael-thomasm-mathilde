@@ -7,13 +7,13 @@ const rightButton = document.getElementById("right-btn");
 const zoomInButton = document.getElementById("zoom-in-btn");
 const zoomOutButton = document.getElementById("zoom-out-btn");
 const fullscreenButton = document.getElementById("fullscreen-btn");
-const redoButton = document.getElementById("redo-btn");
+const undoButton = document.getElementById("undo-btn");
 
 const ACTION_TYPE = {
     MOVE: "move",
     ZOOM: "zoom",
     FULLSCREEN: "fullscreen",
-    REDO: "redo"
+    UNDO: "redo"
 };
 
 upButton.addEventListener("click", makeAction(ACTION_TYPE.MOVE, MoveActions.UP));
@@ -23,7 +23,7 @@ rightButton.addEventListener("click", makeAction(ACTION_TYPE.MOVE, MoveActions.R
 zoomInButton.addEventListener("click", makeAction(ACTION_TYPE.ZOOM, ZoomActions.ZOOM_IN));
 zoomOutButton.addEventListener("click", makeAction(ACTION_TYPE.ZOOM, ZoomActions.ZOOM_OUT));
 fullscreenButton.addEventListener("click", makeAction(ACTION_TYPE.FULLSCREEN));
-redoButton.addEventListener("click", makeAction(ACTION_TYPE.REDO));
+undoButton.addEventListener("click", makeAction(ACTION_TYPE.UNDO));
 
 function makeAction(type, action) {
     return () => {
@@ -38,6 +38,7 @@ function makeAction(type, action) {
                     })
                     .catch(console.error);
                 break;
+            case ACTION_TYPE.UNDO: imageState.undo(); break;
         }
     }
 }

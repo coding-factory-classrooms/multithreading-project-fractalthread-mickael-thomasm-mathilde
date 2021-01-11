@@ -9,17 +9,17 @@ function zoomReducer(store, action) {
     let zoom = store.state.zoom;
     switch (action) {
         case MoveActions.ZOOM_IN:
-            zoom += 0.5
+            zoom += ZOOM_OFFSET
             if (zoom === 0) {
-                zoom = 0.5;
+                zoom = ZOOM_OFFSET;
             }
-            return store.setState({ ...store.state, zoom });
+            return store.setState({ ...store.getState(), zoom });
         case MoveActions.ZOOM_OUT:
-            zoom -= 0.5
+            zoom -= ZOOM_OFFSET;
             if (zoom === 0) {
-                zoom = -0.5;
+                zoom = -ZOOM_OFFSET;
             }
-            return store.setState({ ...store.state, zoom });
+            return store.setState({ ...store.getState(), zoom });
         default:
             return store.state;
     }
