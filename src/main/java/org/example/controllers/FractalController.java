@@ -22,7 +22,7 @@ public class FractalController implements HttpController {
         int width = Integer.parseInt(req.queryParamOrDefault("width", "1000"));
         int height = Integer.parseInt(req.queryParamOrDefault("height", "1000"));
 
-        String key = "xPos_" + x + "_yPos" + y + "_zoom_" + zoom;
+        String key = String.format("%dx%d_xPos_%f_yPos_%f_zoom_%f", width, height, x, y, zoom);
         if (cache.contains(key)) {
             return cache.get(key);
         }
