@@ -17,17 +17,17 @@ public class FractalGenerator {
         this.pixelHeight = pixelHeight;
     }
 
-    public List<List<Double>> generatePixels(double moveX, double moveY, double zoom) {
-        List<Future<List<Double>>> futurMandel = new ArrayList<>();
-        ExecutorService executorService = Executors.newFixedThreadPool(6);
+    public List<List<Integer>> generatePixels(double moveX, double moveY, double zoom) {
+        List<Future<List<Integer>>> futurMandel = new ArrayList<>();
+        ExecutorService executorService = Executors.newFixedThreadPool(16);
         for (int y = 0; y < pixelHeight; y++) {
             Mandelbrot task = new Mandelbrot(y,new Mandelbrot.Size(pixelWidth,pixelHeight),-1.5,0.5,-1.0,1.0, new Mandelbrot.Move(moveX,moveY), zoom);
             futurMandel.add(executorService.submit(task));
         }
-        List<List<Double>> pixel = new ArrayList<>();
+        List<List<Integer>> pixel = new ArrayList<>();
 
-        for (Future<List<Double>> task : futurMandel ) {
-            List<Double> row = null;
+        for (Future<List<Integer>> task : futurMandel ) {
+            List<Integer> row = null;
             try {
                 row = task.get();
             } catch (InterruptedException | ExecutionException  e) {

@@ -7,8 +7,8 @@ import java.util.concurrent.Callable;
 /**
  * Source: https://gist.github.com/dackerman/7bc682d41ce632602af9e1a9858c82fc
  */
-public class Mandelbrot implements Callable<List<Double>>{
-    private static final int MAX_ITERATIONS = 5000;
+public class Mandelbrot implements Callable<List<Integer>>{
+    public static int MAX_ITERATIONS = 5000;
     private static final int MOVE_MULTIPLIER = 100;
 
     private final double xSkip;
@@ -21,8 +21,6 @@ public class Mandelbrot implements Callable<List<Double>>{
     private final double zoom;
     private final int y;
 
-    //ExecutorService threadPool = Executors.newFixedThreadPool(6);
-    
     public Mandelbrot(int y, Size size, double startX, double endX, double startY, double endY, Move move, double zoom) {
         this.y = y;
         this.size = size;
@@ -34,7 +32,7 @@ public class Mandelbrot implements Callable<List<Double>>{
         this.zoom = zoom;
     }
 
-    public double calculatePixel(int pixelX, int pixelY, double moveX, double moveY) {
+    protected int calculatePixel(int pixelX, int pixelY, double moveX, double moveY) {
         double x = (x0 + (pixelX + (moveX * MOVE_MULTIPLIER)) * xSkip) / zoom;
         double y = (y0 + (pixelY + (moveY * MOVE_MULTIPLIER)) * ySkip) / zoom;
         double ix = 0;
@@ -46,12 +44,12 @@ public class Mandelbrot implements Callable<List<Double>>{
             ix = xtemp;
             iteration++;
         }
-        return Math.log(iteration) / Math.log(MAX_ITERATIONS);
+        return iteration;
     }
 
     @Override
-    public List<Double> call() throws Exception {
-        List<Double> row = new ArrayList<>();
+    public List<Integer> call() throws Exception {
+        List<Integer> row = new ArrayList<>();
         for (int x = 0; x < size.width; x++) {
             row.add(calculatePixel(x, y, move.moveX, move.moveY));
         }
