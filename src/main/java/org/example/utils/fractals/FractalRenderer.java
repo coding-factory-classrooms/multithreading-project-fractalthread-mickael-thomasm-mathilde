@@ -1,5 +1,7 @@
 package org.example.utils.fractals;
 
+import org.example.utils.fractals.fractals.Mandelbrot;
+
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.List;

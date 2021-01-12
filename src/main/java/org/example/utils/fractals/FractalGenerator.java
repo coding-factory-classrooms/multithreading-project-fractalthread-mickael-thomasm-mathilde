@@ -1,11 +1,11 @@
 package org.example.utils.fractals;
 
+import org.example.utils.fractals.fractals.properties.FractalSize;
+import org.example.utils.fractals.fractals.properties.FractalMove;
+
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
+import java.util.concurrent.*;
 
 public class FractalGenerator {
 
@@ -18,15 +18,21 @@ public class FractalGenerator {
     }
 
     public List<List<Integer>> generatePixels(double moveX, double moveY, double zoom) {
-        List<Future<List<Integer>>> futurMandel = new ArrayList<>();
+        FractalTaskFactory taskFactory = new FractalTaskFactory(
+            FractalType.MANDELBROT,
+            new FractalSize(pixelWidth, pixelHeight),
+            new FractalMove(moveX,moveY, zoom)
+        );
+
+        List<Future<List<Integer>>> tasks = new ArrayList<>();
         ExecutorService executorService = Executors.newFixedThreadPool(16);
-        for (int y = 0; y < pixelHeight; y++) {
-            Mandelbrot task = new Mandelbrot(y,new Mandelbrot.Size(pixelWidth,pixelHeight),-1.5,0.5,-1.0,1.0, new Mandelbrot.Move(moveX,moveY), zoom);
-            futurMandel.add(executorService.submit(task));
+        for (int line = 0; line < pixelHeight; line++) {
+            Callable<List<Integer>> task = taskFactory.createFractalLineTask(line);
+            tasks.add(executorService.submit(task));
         }
         List<List<Integer>> pixel = new ArrayList<>();
 
-        for (Future<List<Integer>> task : futurMandel ) {
+        for (Future<List<Integer>> task : tasks ) {
             List<Integer> row = null;
             try {
                 row = task.get();
