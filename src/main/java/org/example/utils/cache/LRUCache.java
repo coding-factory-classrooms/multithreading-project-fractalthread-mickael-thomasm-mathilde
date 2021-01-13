@@ -5,14 +5,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class LRUCache<T, U> {
-    private static final int MAX_ELEMENTS = 15;
 
+    private int maxElements;
     private T[] keys;
     private U[] elements;
 
-    public LRUCache() {
-        this.keys = (T[]) new Object[MAX_ELEMENTS];
-        this.elements = (U[]) new Object[MAX_ELEMENTS];
+    public LRUCache(int size) {
+        this.maxElements = size;
+        this.keys = (T[]) new Object[maxElements];
+        this.elements = (U[]) new Object[maxElements];
     }
 
     public void add(T key, U element) {
@@ -21,7 +22,7 @@ public class LRUCache<T, U> {
         }
 
         // Move each elements to the right
-        for (int i = MAX_ELEMENTS - 1; i > 0; i--) {
+        for (int i = maxElements - 1; i > 0; i--) {
             if (elements[i] == null && elements[i - 1] == null) continue;
 
             // Move the element previous element
@@ -60,8 +61,8 @@ public class LRUCache<T, U> {
     }
 
     public void reset() {
-        this.keys = (T[]) new Object[MAX_ELEMENTS];
-        this.elements = (U[]) new Object[MAX_ELEMENTS];
+        this.keys = (T[]) new Object[maxElements];
+        this.elements = (U[]) new Object[maxElements];
     }
 
     public int size() {

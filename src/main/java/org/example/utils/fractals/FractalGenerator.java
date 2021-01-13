@@ -1,85 +1,52 @@
 package org.example.utils.fractals;
 
-import java.awt.*;
-import java.awt.image.BufferedImage;
+import org.example.utils.fractals.fractals.FractalConf;
+import org.example.utils.threadpool.executors.Executors;
+
+import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Future;
 
 public class FractalGenerator {
 
-    private final int width;
-    private final int height;
-    private final Position position;
-    private final double zoom;
+    private final FractalType fractalType;
+    private final int pixelWidth;
+    private final int pixelHeight;
+    private final int maxIterations;
 
-    public FractalGenerator(int width, int height) {
-        this.width = width;
-        this.height = height;
-        this.position = new Position(0, 0);
-        this.zoom = 1;
+    public FractalGenerator(FractalType fractalType, int pixelWidth, int pixelHeight, int maxIterations) {
+        this.fractalType = fractalType;
+        this.pixelWidth = pixelWidth;
+        this.pixelHeight = pixelHeight;
+        this.maxIterations = maxIterations;
     }
 
-    public FractalGenerator(int width, int height, Position position, double zoom) {
-        this.width = width;
-        this.height = height;
-        this.position = position;
-        this.zoom = zoom;
-    }
+    public List<List<Integer>> generatePixels(double moveX, double moveY, double zoom, double realPart, double imaginaryPart) {
+        FractalTaskFactory taskFactory = new FractalTaskFactory(
+            fractalType,
+            new FractalConf(realPart, imaginaryPart, pixelWidth, pixelHeight, moveX, moveY, zoom, maxIterations)
+        );
 
-    public BufferedImage generateImage() {
-        Mandelbrot fractal = new Mandelbrot(width, height, -1.5, 0.5, -1.0,  1.0, zoom);
-        List<List<Double>> pixels = fractal.generatePixels(this.position.start, this.position.end);
+        List<Future<List<Integer>>> tasks = new ArrayList<>();
+        ExecutorService executorService = Executors.newFixedThreadPool(16);
+        for (int line = 0; line < pixelHeight; line++) {
+            Callable<List<Integer>> task = taskFactory.createFractalLineTask(line);
+            tasks.add(executorService.submit(task));
+        }
+        List<List<Integer>> pixel = new ArrayList<>();
 
-        double minIntensity = calcMin(pixels);
-        double maxIntensity = calcMax(pixels);
-
-        BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
-        for (int y = 0; y < pixels.size(); y++) {
-            List<Double> xs = pixels.get(y);
-            for (int x = 0; x < xs.size(); x++) {
-                double intensity = this.getIntensityForPixel(xs.get(x), minIntensity, maxIntensity);
-                image.setRGB(x, y, this.getRGBColorForIntensity(intensity));
+        for (Future<List<Integer>> task : tasks ) {
+            List<Integer> row = null;
+            try {
+                row = task.get();
+            } catch (InterruptedException | ExecutionException e) {
+                e.printStackTrace();
             }
+            pixel.add(row);
         }
-
-        return image;
-    }
-
-    private double calcMin(List<List<Double>> pixels) {
-        double minIntensity = 1;
-        for (List<Double> row : pixels) {
-            for (double col : row) {
-                minIntensity = Math.min(minIntensity, col);
-            }
-        }
-        return minIntensity;
-    }
-
-    private double calcMax(List<List<Double>> pixels) {
-        double maxIntensity = 1;
-        for (List<Double> row : pixels) {
-            for (double col : row) {
-                maxIntensity = Math.max(maxIntensity, col);
-            }
-        }
-        return maxIntensity;
-    }
-
-    private double getIntensityForPixel(double value, double minIntensity, double maxIntensity) {
-        return (value - minIntensity) / (maxIntensity - minIntensity);
-    }
-
-    private int getRGBColorForIntensity(double intensity) {
-        int colorInt = (int) (255 * intensity);
-        return new Color(colorInt, colorInt, colorInt).getRGB();
-    }
-
-    public static class Position {
-        public double start;
-        public double end;
-
-        public Position(double start, double end) {
-            this.start = start;
-            this.end = end;
-        }
+        return pixel;
     }
 }

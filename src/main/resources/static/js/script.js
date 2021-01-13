@@ -1,88 +1,116 @@
- const canvas = document.getElementById("fractal_canvas");
- const loading = document.getElementById("loading");
+const imageState = new Store({
+    type: FractalTypes.MANDELBROT,
+    x: 0,
+    y: 0,
+    zoom: 1,
+    r: -0.59999999999999,
+    i: 0.42999999999
+});
+let unsubscribeStateChange = null;
+let keyPressed = {};
 
-        const canvasContext = canvas.getContext("2d");
+const canvas = document.getElementById("fractal_canvas");
+const loading = document.getElementById("loading");
 
-        let x = 0;
-        let y = 0;
-        let zoom = 1;
+const canvasContext = canvas.getContext("2d");
 
-        window.onload = () => {
-            resizeCanvas();
-            getFractal(canvas.width,canvas.height);
-            window.addEventListener("keyup", (event) => {
-                if (event.code.startsWith("Arrow")) {
-                    switch (event.code) {
-                        case "ArrowUp":
-                            y--;
-                            break;
-                        case "ArrowDown":
-                            y++;
-                            break;
-                        case "ArrowLeft":
-                            x--;
-                            break;
-                        case "ArrowRight":
-                            x++;
-                            break;
-                    }
-                    getFractal(canvas.width,canvas.height,x,y,zoom,);
-                }
+window.onload = () => {
+    unsubscribeStateChange = imageState.subscribe((state) => {
+        const isJuliaFractal = state.type === FractalTypes.JULIA
+        mandelbrotButton.checked = !isJuliaFractal;
+        juliaButton.checked = isJuliaFractal;
 
-                if (event.code === "NumpadAdd") {
-                    zoom += 0.5
-                    if (zoom === 0) {
-                        zoom = 0.5;
-                    }
-                    getFractal(canvas.width,canvas.height,x,y,zoom,);
-                } else if (event.code === "NumpadSubtract") {
-                    zoom -= 0.5
-                    if (zoom === 0) {
-                        zoom = -0.5;
-                    }
-                    getFractal(canvas.width,canvas.height,x,y,zoom,);
+        getFractal(
+            state.type,
+            {
+                w: canvas.width,
+                h: canvas.height,
+                x: state.x,
+                y: state.y,
+                zoom: state.zoom,
+                complex: {
+                    r: state.r,
+                    i: state.i
+                },
+                easterEgg: true
+            }
+        );
+    });
+
+    resizeCanvas();
+    getFractal(
+        imageState.getState().type,
+        {
+            w: canvas.width,
+            h: canvas.height,
+            x: 0,
+            y: 0,
+            zoom: 1,
+            complex: {
+                r: imageState.getState().r,
+                i: imageState.getState().i
+            }
+        }
+    );
+
+    window.addEventListener("keydown", (event) => {
+        keyPressed[event.code] = true;
+        if (keyPressed["ControlLeft"] && keyPressed["ShiftLeft"] && keyPressed["Digit2"]) {
+            moveReducer(imageState, MoveActions.SET, {
+                x: -0.006015625000000002,
+                y: -0.06617187499999999,
+                zoom: 128,
+                complex: {
+                    r: 0.285,
+                    i: 0.0105
                 }
             });
+            keyPressed = {};
         }
+    });
 
-async function getFractal(w,h,x,y,zoom) {
-            const url = new URL("/fractal", window.location.origin);
-    url.searchParams.append("width",w);
-    url.searchParams.append("height",h);
-            if (isDefined(x) && isDefined(y) && isDefined(zoom)) {
-                url.searchParams.append("x", x);
-                url.searchParams.append("y", y);
-                url.searchParams.append("zoom", zoom);
-
-            }
-
-            const response = await fetch(url.toString());
-            const image = await response.blob();
-
-            const htmlImage = new Image(w,h)
-            htmlImage.onload = () => {
-                canvasContext.clearRect(0, 0, canvas.width, canvas.height);
-                canvasContext.drawImage(htmlImage, 0, 0)
-            };
-            htmlImage.src = URL.createObjectURL(image);
-            loading.hidden = true;
-
-            console.log(w,h)
+    window.addEventListener("keyup", (event) => {
+        keyPressed[event.code] = false;
+        switch (event.code) {
+            case "ArrowUp":
+                moveReducer(imageState, MoveActions.UP)
+                break;
+            case "ArrowDown":
+                moveReducer(imageState, MoveActions.DOWN)
+                break;
+            case "ArrowLeft":
+                moveReducer(imageState, MoveActions.LEFT)
+                break;
+            case "ArrowRight":
+                moveReducer(imageState, MoveActions.RIGHT)
+                break;
+            case "NumpadAdd":
+                zoomReducer(imageState, ZoomActions.ZOOM_IN);
+                break;
+            case "NumpadSubstract":
+                zoomReducer(imageState, ZoomActions.ZOOM_OUT);
+                break;
         }
-
-        function isDefined(variable) {
-            return variable !== undefined && variable !== null;
-        }
+    });
+}
 
 // resize the canvas to fill browser window dynamically
 window.addEventListener('resize', () => {
     resizeCanvas();
-    getFractal(canvas.width,canvas.height);
-}
-);
+    getFractal(
+        imageState.getState().type,
+        {
+            w: canvas.width,
+            h: canvas.height,
+            x: 0, y: 0, zoom: 1,
+            complex: {
+                r: imageState.getState().r,
+                i: imageState.getState().i
+            }
+        }
+    )
+});
 
-function resizeCanvas() {
-    loading.hidden = false;
-    canvas.width = window.innerWidth - 250;
-    canvas.height = window.innerHeight;
+window.onunload = () => {
+    imageState.unsubscribe(unsubscribeStateChange);
 }
