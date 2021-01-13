@@ -1,16 +1,22 @@
 # Statistiques
 
 Statistiques pour une image de 2500 x 2000 sur 10 runs consécutives
+###Mathilde
+**OS:** macOs Big Sur 11.1
 
-## Sans multithreading
+**Processeur:** 2,6 GHz Intel Core i7 quatre cœurs
 
-### Thomas G
-
+**Mémoire:** 16 Go 2133 MHz LPDDR3
+###Thomas
 **OS:** Windows 10
 
 **Processeur:** 3,89 GHz AMD Ryzen 7 3800X 8 cœurs
 
 **Mémoire:** 16 Go
+
+## Sans multithreading
+
+### Thomas G
 
 Temps moyen: **22,929 secondes**
 
@@ -26,11 +32,6 @@ Temps moyen: **22,929 secondes**
 - 23026 ms
 
 ### Mathilde
-**OS:** macOs Big Sur 11.1
-
-**Processeur:** 2,6 GHz Intel Core i7 quatre cœurs
-
-**Mémoire:** 16 Go 2133 MHz LPDDR3
 
 Temps moyen: **42,403 secondes**
 - 43035 ms
@@ -44,7 +45,7 @@ Temps moyen: **42,403 secondes**
 - 42045 ms
 - 42210 ms
 
-### Mike
+## Mike
 
 Temps moyen: **34,493 secondes**
 
@@ -76,3 +77,17 @@ Temps moyen: **3,945 secondes**
 - 2788 ms
 - 3285 ms
 - 4014 ms
+
+#Mathilde
+Temps moyen: **9,847 secondes**
+
+- 10150 ms
+- 9906 ms
+- 15045 ms
+- 7602 ms
+- 7446 ms
+- 7476 ms
+- 9704 ms
+- 10000 ms
+- 10149 ms
+- 10999 ms
