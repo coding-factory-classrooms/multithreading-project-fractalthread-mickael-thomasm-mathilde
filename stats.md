@@ -14,6 +14,13 @@ Statistiques pour une image de 2500 x 2000 sur 10 runs consécutives
 
 **Mémoire:** 16 Go
 
+### Mike
+**OS:** Windows 10
+
+**Processeur:** (2.20 GHz/4.10 GHz) Intel Core i7-8750H 6 cœurs
+
+**Mémoire:** 16 Go
+
 ## Sans multithreading
 
 ### Thomas G
@@ -46,13 +53,8 @@ Temps moyen: **42,403 secondes**
 - 42210 ms
 
 ## Mike
-**OS:** Windows 10
 
-**Processeur:** (2.20 GHz/4.10 GHz) Intel Core i7-8750H 6 cœurs
-
-**Mémoire:** 16 Go
-
-### Temps moyen: 34,493 secondes
+Temps moyen: **34,493 secondes**
 
 - 34176 ms
 - 33526 ms
