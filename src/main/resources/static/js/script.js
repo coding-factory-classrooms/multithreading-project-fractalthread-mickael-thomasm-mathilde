@@ -1,5 +1,5 @@
 const imageState = new Store({
-    type: FractalTypes.JULIA,
+    type: FractalTypes.MANDELBROT,
     x: 0,
     y: 0,
     zoom: 1,
