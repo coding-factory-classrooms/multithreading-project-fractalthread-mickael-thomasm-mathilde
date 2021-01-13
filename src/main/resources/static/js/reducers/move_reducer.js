@@ -1,4 +1,4 @@
-const MOVE_OFFSET = 1;
+const MOVE_OFFSET = 6;
 
 const MoveActions = {
     UP: "up",

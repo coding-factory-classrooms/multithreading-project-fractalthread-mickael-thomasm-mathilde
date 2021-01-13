@@ -1,4 +1,4 @@
-const ZOOM_OFFSET = 0.5;
+let ZOOM_OFFSET = 1;
 
 const ZoomActions = {
     ZOOM_IN: "zoom_in",
@@ -6,19 +6,23 @@ const ZoomActions = {
 };
 
 function zoomReducer(store, action) {
-    let zoom = store.state.zoom;
+    let zoom = store.getState().zoom;
     switch (action) {
-        case MoveActions.ZOOM_IN:
-            zoom += ZOOM_OFFSET
-            if (zoom === 0) {
-                zoom = ZOOM_OFFSET;
-            }
+        case ZoomActions.ZOOM_IN:
+            zoom *= ZOOM_OFFSET;
+            ZOOM_OFFSET *= 2;
+            // if (zoom === 0) {
+            //     zoom = ZOOM_OFFSET;
+            // }
+            console.log(zoom)
             return store.setState({ ...store.getState(), zoom });
-        case MoveActions.ZOOM_OUT:
-            zoom -= ZOOM_OFFSET;
-            if (zoom === 0) {
-                zoom = -ZOOM_OFFSET;
-            }
+        case ZoomActions.ZOOM_OUT:
+            zoom /= ZOOM_OFFSET;
+            ZOOM_OFFSET *= 2;
+            // if (zoom === 0) {
+            //     zoom = -ZOOM_OFFSET;
+            // }
+            console.log(zoom)
             return store.setState({ ...store.getState(), zoom });
         default:
             return store.state;

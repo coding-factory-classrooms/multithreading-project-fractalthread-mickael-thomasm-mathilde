@@ -1,8 +1,5 @@
 package org.example.utils.fractals.fractals;
 
-import org.example.utils.fractals.fractals.properties.FractalMove;
-import org.example.utils.fractals.fractals.properties.FractalSize;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
@@ -18,24 +15,22 @@ public class Mandelbrot implements Fractal, Callable<List<Integer>>{
     private final double ySkip;
     private final double x0;
     private final double y0;
-    private final FractalSize size;
-    private final FractalMove fractalMove;
+    private final FractalConf fractalConf;
     private final int y;
 
-    public Mandelbrot(int y, FractalSize size, FractalMove fractalMove) {
+    public Mandelbrot(int y, FractalConf configuration) {
         this.y = y;
-        this.size = size;
+        this.fractalConf = configuration;
         this.x0 = -1.5;
-        this.xSkip = (0.5 - this.x0) / size.width;
+        this.xSkip = (0.5 - this.x0) / configuration.width;
         this.y0 = -1.0;
-        this.ySkip = (1.0 - this.y0) / size.height;
-        this.fractalMove = fractalMove;
+        this.ySkip = (1.0 - this.y0) / configuration.height;
     }
 
     @Override
-    public int calculatePixel(int pixelX, int pixelY, double moveX, double moveY, double zoom) {
-        double x = (x0 + (pixelX + (moveX * MOVE_MULTIPLIER)) * xSkip) / zoom;
-        double y = (y0 + (pixelY + (moveY * MOVE_MULTIPLIER)) * ySkip) / zoom;
+    public int calculatePixel(int pixelX, int pixelY) {
+        double x = (x0 + (pixelX + (fractalConf.moveX * MOVE_MULTIPLIER)) * xSkip) / fractalConf.zoom;
+        double y = (y0 + (pixelY + (fractalConf.moveY * MOVE_MULTIPLIER)) * ySkip) / fractalConf.zoom;
         double ix = 0;
         double iy = 0;
         int iteration = 0;
@@ -51,8 +46,8 @@ public class Mandelbrot implements Fractal, Callable<List<Integer>>{
     @Override
     public List<Integer> call() {
         List<Integer> row = new ArrayList<>();
-        for (int x = 0; x < size.width; x++) {
-            row.add(calculatePixel(x, y, fractalMove.moveX, fractalMove.moveY, fractalMove.zoom));
+        for (int x = 0; x < fractalConf.width; x++) {
+            row.add(calculatePixel(x, y));
         }
         return row;
     }

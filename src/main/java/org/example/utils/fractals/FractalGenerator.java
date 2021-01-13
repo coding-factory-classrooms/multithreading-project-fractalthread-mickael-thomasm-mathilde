@@ -1,31 +1,28 @@
 package org.example.utils.fractals;
 
-import org.example.utils.fractals.fractals.properties.FractalSize;
-import org.example.utils.fractals.fractals.properties.FractalMove;
-import org.example.utils.threadpool.executors.Executors;
+import org.example.utils.fractals.fractals.Fractal;
+import org.example.utils.fractals.fractals.FractalConf;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Future;
+import java.util.concurrent.*;
 
 public class FractalGenerator {
 
+    private final FractalType fractalType;
     private final int pixelWidth;
     private final int pixelHeight;
 
-    public FractalGenerator(int pixelWidth, int pixelHeight) {
+    public FractalGenerator(FractalType fractalType, int pixelWidth, int pixelHeight) {
+        this.fractalType = fractalType;
         this.pixelWidth = pixelWidth;
         this.pixelHeight = pixelHeight;
     }
 
     public List<List<Integer>> generatePixels(double moveX, double moveY, double zoom) {
         FractalTaskFactory taskFactory = new FractalTaskFactory(
-            FractalType.MANDELBROT,
-            new FractalSize(pixelWidth, pixelHeight),
-            new FractalMove(moveX,moveY, zoom)
+            fractalType,
+            new FractalConf(pixelWidth, pixelHeight, moveX, moveY, zoom, 5000)
         );
 
         List<Future<List<Integer>>> tasks = new ArrayList<>();

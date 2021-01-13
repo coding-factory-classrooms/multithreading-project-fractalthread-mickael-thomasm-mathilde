@@ -9,12 +9,15 @@ const zoomOutButton = document.getElementById("zoom-out-btn");
 const fullscreenButton = document.getElementById("fullscreen-btn");
 const undoButton = document.getElementById("undo-btn");
 const exportButton = document.getElementById("export-btn");
+const mandelbrotButton = document.getElementById("mandelbrot");
+const juliaButton = document.getElementById("julia");
 
 const ACTION_TYPE = {
     MOVE: "move",
     ZOOM: "zoom",
     FULLSCREEN: "fullscreen",
-    UNDO: "redo"
+    UNDO: "redo",
+    CHANGE_TYPE: "change_type"
 };
 
 upButton.addEventListener("click", makeAction(ACTION_TYPE.MOVE, MoveActions.UP));
@@ -25,6 +28,8 @@ zoomInButton.addEventListener("click", makeAction(ACTION_TYPE.ZOOM, ZoomActions.
 zoomOutButton.addEventListener("click", makeAction(ACTION_TYPE.ZOOM, ZoomActions.ZOOM_OUT));
 fullscreenButton.addEventListener("click", makeAction(ACTION_TYPE.FULLSCREEN));
 undoButton.addEventListener("click", makeAction(ACTION_TYPE.UNDO));
+mandelbrotButton.addEventListener("change", makeAction(ACTION_TYPE.CHANGE_TYPE, FractalTypes.MANDELBROT));
+juliaButton.addEventListener("change", makeAction(ACTION_TYPE.CHANGE_TYPE, FractalTypes.JULIA));
 
 exportButton.addEventListener("click", () => {
     const data = canvas
@@ -49,6 +54,7 @@ function makeAction(type, action) {
                     })
                     .catch(console.error);
                 break;
+            case ACTION_TYPE.CHANGE_TYPE: typeReducer(imageState, action); break;
             case ACTION_TYPE.UNDO: imageState.undo(); break;
         }
     }

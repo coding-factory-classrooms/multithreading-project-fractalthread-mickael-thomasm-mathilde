@@ -8,34 +8,40 @@ import java.util.List;
 
 public class FractalRenderer {
 
+    private final FractalType fractalType;
     private final int width;
     private final int height;
     private final Position position;
     private final double zoom;
+    private final int maxIterations;
     private final int[] colors;
 
     public FractalRenderer(int width, int height) {
+        this.fractalType = FractalType.MANDELBROT;
         this.width = width;
         this.height = height;
         this.position = new Position(0, 0);
         this.zoom = 1;
+        this.maxIterations = 5000;
 
-        this.colors = new int[Mandelbrot.MAX_ITERATIONS + 1];
+        this.colors = new int[maxIterations + 1];
         this.generateColorPalette();
     }
 
-    public FractalRenderer(int width, int height, Position position, double zoom) {
+    public FractalRenderer(FractalType fractalType, int width, int height, Position position, double zoom, int maxIterations) {
+        this.fractalType = fractalType;
         this.width = width;
         this.height = height;
         this.position = position;
         this.zoom = zoom;
+        this.maxIterations = maxIterations;
 
-        this.colors = new int[Mandelbrot.MAX_ITERATIONS + 1];
+        this.colors = new int[maxIterations + 1];
         this.generateColorPalette();
     }
 
     public BufferedImage generateImage() {
-        FractalGenerator fractal = new FractalGenerator(width, height);
+        FractalGenerator fractal = new FractalGenerator(this.fractalType, width, height);
         List<List<Integer>> pixels = fractal.generatePixels(this.position.start, this.position.end,this.zoom);
 
         BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);

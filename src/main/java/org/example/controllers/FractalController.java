@@ -2,6 +2,7 @@ package org.example.controllers;
 
 import org.example.utils.cache.LRUCache;
 import org.example.utils.fractals.FractalRenderer;
+import org.example.utils.fractals.FractalType;
 import spark.Request;
 import spark.Response;
 
@@ -9,6 +10,7 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.Locale;
 
 public class FractalController implements HttpController {
 
@@ -16,19 +18,21 @@ public class FractalController implements HttpController {
 
     @Override
     public Object render(Request req, Response res) {
+        res.type("image/jpeg");
+
+        String fractalType = req.queryParamOrDefault("type", "MANDELBROT").toUpperCase(Locale.ROOT);
         double x = Double.parseDouble(req.queryParamOrDefault("x", "0"));
         double y = Double.parseDouble(req.queryParamOrDefault("y", "0"));
         double zoom = Double.parseDouble(req.queryParamOrDefault("zoom", "1"));
         int width = Integer.parseInt(req.queryParamOrDefault("width", "1000"));
         int height = Integer.parseInt(req.queryParamOrDefault("height", "1000"));
 
-        String key = String.format("%dx%d_xPos_%f_yPos_%f_zoom_%f", width, height, x, y, zoom);
+        String key = String.format("%s_res_%dx%d_xPos_%f_yPos_%f_zoom_%f", fractalType, width, height, x, y, zoom);
         if (cache.contains(key)) {
             return cache.get(key);
         }
 
-        res.type("image/jpeg");
-        FractalRenderer fractalRenderer = new FractalRenderer(width, height, new FractalRenderer.Position(x, y), zoom);
+        FractalRenderer fractalRenderer = new FractalRenderer(FractalType.valueOf(fractalType), width, height, new FractalRenderer.Position(x, y), zoom, 5000);
         BufferedImage image = fractalRenderer.generateImage();
 
         byte[] fileData = this.getFileData(image);
