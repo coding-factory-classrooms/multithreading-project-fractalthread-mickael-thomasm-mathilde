@@ -15,6 +15,10 @@ const canvasContext = canvas.getContext("2d");
 
 window.onload = () => {
     unsubscribeStateChange = imageState.subscribe((state) => {
+        const isJuliaFractal = state.type === FractalTypes.JULIA
+        mandelbrotButton.checked = !isJuliaFractal;
+        juliaButton.checked = isJuliaFractal;
+
         getFractal(
             state.type,
             {
