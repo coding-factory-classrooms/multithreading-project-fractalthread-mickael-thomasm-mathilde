@@ -1,10 +1,14 @@
 package org.example.utils.fractals;
 
 import org.example.utils.fractals.fractals.FractalConf;
+import org.example.utils.threadpool.executors.Executors;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.*;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Future;
 
 public class FractalGenerator {
 
