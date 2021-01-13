@@ -47,7 +47,7 @@ public class FractalRenderer {
     }
 
     public BufferedImage generateImage() {
-        FractalGenerator fractal = new FractalGenerator(this.fractalType, width, height);
+        FractalGenerator fractal = new FractalGenerator(this.fractalType, width, height, this.maxIterations);
         List<List<Integer>> pixels = fractal.generatePixels(this.position.start, this.position.end,this.zoom, this.realPart, this.imaginaryPart);
 
         BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
@@ -75,9 +75,9 @@ public class FractalRenderer {
     }
 
     private void generateColorPalette() {
-        for (int i = 0; i < Mandelbrot.MAX_ITERATIONS - 1; i++) {
+        for (int i = 0; i < this.maxIterations - 1; i++) {
             colors[i] = Color.HSBtoRGB(i/256f, 1, i/(i+8f));
         }
-        colors[Mandelbrot.MAX_ITERATIONS] = Color.black.getRGB();
+        colors[this.maxIterations] = Color.black.getRGB();
     }
 }
