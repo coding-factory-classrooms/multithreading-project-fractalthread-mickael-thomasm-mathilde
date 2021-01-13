@@ -15,21 +15,36 @@ const canvasContext = canvas.getContext("2d");
 
 window.onload = () => {
     unsubscribeStateChange = imageState.subscribe((state) => {
-        console.log(state)
         getFractal(
             state.type,
-            { w: canvas.width, h: canvas.height },
-            { x: state.x, y: state.y, zoom: state.zoom },
-            { r: state.r, i: state.i }
+            {
+                w: canvas.width,
+                h: canvas.height,
+                x: state.x,
+                y: state.y,
+                zoom: state.zoom,
+                complex: {
+                    r: state.r,
+                    i: state.i
+                }
+            }
         );
     });
 
     resizeCanvas();
     getFractal(
         imageState.getState().type,
-        { w: canvas.width, h: canvas.height },
-        { x: 0, y: 0, zoom: 1 },
-        { r: imageState.getState().r, i: imageState.getState().i }
+        {
+            w: canvas.width,
+            h: canvas.height,
+            x: 0,
+            y: 0,
+            zoom: 1,
+            complex: {
+                r: imageState.getState().r,
+                i: imageState.getState().i
+            }
+        }
     );
 
     window.addEventListener("keyup", (event) => {
@@ -47,10 +62,10 @@ window.onload = () => {
                 moveReducer(imageState, MoveActions.RIGHT)
                 break;
             case "NumpadAdd":
-                zoomReducer(imageState, MoveActions.ZOOM_IN);
+                zoomReducer(imageState, ZoomActions.ZOOM_IN);
                 break;
             case "NumpadSubstract":
-                zoomReducer(imageState, MoveActions.ZOOM_OUT);
+                zoomReducer(imageState, ZoomActions.ZOOM_OUT);
                 break;
         }
     });
@@ -61,9 +76,15 @@ window.addEventListener('resize', () => {
     resizeCanvas();
     getFractal(
         imageState.getState().type,
-        { w: canvas.width, h: canvas.height },
-        { x: 0, y: 0, zoom: 1 },
-        { r: imageState.getState().r, i: imageState.getState().i }
+        {
+            w: canvas.width,
+            h: canvas.height,
+            x: 0, y: 0, zoom: 1,
+            complex: {
+                r: imageState.getState().r,
+                i: imageState.getState().i
+            }
+        }
     );
 });
 

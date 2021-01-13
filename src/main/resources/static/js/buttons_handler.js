@@ -52,9 +52,17 @@ function makeAction(type, action) {
                         resizeCanvas()
                         getFractal(
                             imageState.getState().type,
-                            { w: canvas.width, h: canvas.height },
-                            { x: imageState.getState().x, y: imageState.getState().y, zoom: imageState.getState().zoom },
-                            { r: imageState.getState().r, i: imageState.getState().i }
+                            {
+                                w: canvas.width,
+                                h: canvas.height,
+                                x: imageState.getState().x,
+                                y: imageState.getState().y,
+                                zoom: imageState.getState().zoom,
+                                complex: {
+                                    r: imageState.getState().r,
+                                    i: imageState.getState().i
+                                }
+                            }
                         );
                     })
                     .catch(console.error);
