@@ -47,7 +47,6 @@ public class FractalGenerator {
             }
             pixel.add(row);
         }
-        System.out.println(pixel.size());
         return pixel;
     }
 }
