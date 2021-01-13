@@ -7,6 +7,7 @@ const imageState = new Store({
     i: 0.42999999999
 });
 let unsubscribeStateChange = null;
+let keyPressed = {};
 
 const canvas = document.getElementById("fractal_canvas");
 const loading = document.getElementById("loading");
@@ -30,7 +31,8 @@ window.onload = () => {
                 complex: {
                     r: state.r,
                     i: state.i
-                }
+                },
+                easterEgg: true
             }
         );
     });
@@ -51,7 +53,24 @@ window.onload = () => {
         }
     );
 
+    window.addEventListener("keydown", (event) => {
+        keyPressed[event.code] = true;
+        if (keyPressed["ControlLeft"] && keyPressed["ShiftLeft"] && keyPressed["Digit2"]) {
+            moveReducer(imageState, MoveActions.SET, {
+                x: -0.006015625000000002,
+                y: -0.06617187499999999,
+                zoom: 128,
+                complex: {
+                    r: 0.285,
+                    i: 0.0105
+                }
+            });
+            keyPressed = {};
+        }
+    });
+
     window.addEventListener("keyup", (event) => {
+        keyPressed[event.code] = false;
         switch (event.code) {
             case "ArrowUp":
                 moveReducer(imageState, MoveActions.UP)
@@ -89,7 +108,7 @@ window.addEventListener('resize', () => {
                 i: imageState.getState().i
             }
         }
-    );
+    )
 });
 
 window.onunload = () => {
