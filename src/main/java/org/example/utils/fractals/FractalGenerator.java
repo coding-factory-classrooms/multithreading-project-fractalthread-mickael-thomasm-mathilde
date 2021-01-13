@@ -1,6 +1,5 @@
 package org.example.utils.fractals;
 
-import org.example.utils.fractals.fractals.Fractal;
 import org.example.utils.fractals.fractals.FractalConf;
 
 import java.util.ArrayList;
@@ -19,10 +18,10 @@ public class FractalGenerator {
         this.pixelHeight = pixelHeight;
     }
 
-    public List<List<Integer>> generatePixels(double moveX, double moveY, double zoom) {
+    public List<List<Integer>> generatePixels(double moveX, double moveY, double zoom, double realPart, double imaginaryPart) {
         FractalTaskFactory taskFactory = new FractalTaskFactory(
             fractalType,
-            new FractalConf(pixelWidth, pixelHeight, moveX, moveY, zoom, 5000)
+            new FractalConf(realPart, imaginaryPart, pixelWidth, pixelHeight, moveX, moveY, zoom, 5000)
         );
 
         List<Future<List<Integer>>> tasks = new ArrayList<>();

@@ -1,4 +1,4 @@
-let ZOOM_OFFSET = 1;
+let ZOOM_OFFSET = 2;
 
 const ZoomActions = {
     ZOOM_IN: "zoom_in",

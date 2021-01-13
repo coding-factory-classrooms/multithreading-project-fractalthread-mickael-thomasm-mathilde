@@ -19,8 +19,8 @@ public class Julia implements Fractal, Callable<List<Integer>> {
         double newRe, newIm, oldRe, oldIm;
 
         //pick some values for the constant c, this determines the shape of the Julia Set
-        cRe = -0.62772;
-        cIm = 0.42193;
+        cRe = configuration.realPart;
+        cIm = configuration.imaginaryPart;
 
         int w = configuration.width;
         int h = configuration.height;
@@ -29,7 +29,7 @@ public class Julia implements Fractal, Callable<List<Integer>> {
         newIm = (pixelY - h / 2) / (0.5 * configuration.zoom * h) + configuration.moveY;
 
         int iterations;
-        for (iterations = 0; iterations < 5000; iterations++) {
+        for (iterations = 0; iterations < configuration.maxIterations; iterations++) {
             //remember value of previous iteration
             oldRe = newRe;
             oldIm = newIm;

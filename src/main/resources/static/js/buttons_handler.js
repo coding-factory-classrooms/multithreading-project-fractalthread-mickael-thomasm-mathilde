@@ -50,7 +50,12 @@ function makeAction(type, action) {
                 homeContainer.requestFullscreen()
                     .then(() => {
                         resizeCanvas()
-                        getFractal(canvas.width, canvas.height, imageState.state.x, imageState.state.y, imageState.state.zoom)
+                        getFractal(
+                            imageState.getState().type,
+                            { w: canvas.width, h: canvas.height },
+                            { x: imageState.getState().x, y: imageState.getState().y, zoom: imageState.getState().zoom },
+                            { r: imageState.getState().r, i: imageState.getState().i }
+                        );
                     })
                     .catch(console.error);
                 break;

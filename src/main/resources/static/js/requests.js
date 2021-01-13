@@ -1,8 +1,12 @@
-async function getFractal(type, w, h, x, y, zoom) {
+async function getFractal(type, { w, h }, { x, y, zoom }, complex) {
     const url = new URL("/fractal", window.location.origin);
     url.searchParams.append("type", type);
     url.searchParams.append("width", w);
     url.searchParams.append("height", h);
+    if (type === FractalTypes.JULIA) {
+        url.searchParams.append("i", complex.i);
+        url.searchParams.append("r", complex.r);
+    }
     if (isDefined(x) && isDefined(y) && isDefined(zoom)) {
         url.searchParams.append("x", x);
         url.searchParams.append("y", y);

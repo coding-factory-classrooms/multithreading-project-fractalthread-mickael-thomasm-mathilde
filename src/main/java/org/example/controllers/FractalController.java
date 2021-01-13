@@ -24,6 +24,8 @@ public class FractalController implements HttpController {
         double x = Double.parseDouble(req.queryParamOrDefault("x", "0"));
         double y = Double.parseDouble(req.queryParamOrDefault("y", "0"));
         double zoom = Double.parseDouble(req.queryParamOrDefault("zoom", "1"));
+        double r = Double.parseDouble(req.queryParamOrDefault("r", "0"));
+        double i = Double.parseDouble(req.queryParamOrDefault("i", "0"));
         int width = Integer.parseInt(req.queryParamOrDefault("width", "1000"));
         int height = Integer.parseInt(req.queryParamOrDefault("height", "1000"));
 
@@ -32,7 +34,16 @@ public class FractalController implements HttpController {
             return cache.get(key);
         }
 
-        FractalRenderer fractalRenderer = new FractalRenderer(FractalType.valueOf(fractalType), width, height, new FractalRenderer.Position(x, y), zoom, 5000);
+        FractalRenderer fractalRenderer = new FractalRenderer(
+            FractalType.valueOf(fractalType),
+            width,
+            height,
+            new FractalRenderer.Position(x, y),
+            zoom,
+            r,
+            i,
+            5000
+        );
         BufferedImage image = fractalRenderer.generateImage();
 
         byte[] fileData = this.getFileData(image);

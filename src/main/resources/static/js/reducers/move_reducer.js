@@ -1,4 +1,4 @@
-const MOVE_OFFSET = 6;
+const MOVE_OFFSET = 0.07;
 
 const MoveActions = {
     UP: "up",
@@ -10,13 +10,13 @@ const MoveActions = {
 function moveReducer(store, action) {
     switch (action) {
         case MoveActions.UP:
-            return store.setState({ ...store.getState(), y: store.getState().y - MOVE_OFFSET });
+            return store.setState({ ...store.getState(), y: store.getState().y - MOVE_OFFSET / store.getState().zoom });
         case MoveActions.DOWN:
-            return store.setState({ ...store.getState(), y: store.getState().y + MOVE_OFFSET });
+            return store.setState({ ...store.getState(), y: store.getState().y + MOVE_OFFSET / store.getState().zoom });
         case MoveActions.LEFT:
-            return store.setState({ ...store.getState(), x: store.getState().x - MOVE_OFFSET });
+            return store.setState({ ...store.getState(), x: store.getState().x - MOVE_OFFSET / store.getState().zoom });
         case MoveActions.RIGHT:
-            return store.setState({ ...store.getState(), x: store.getState().x + MOVE_OFFSET });
+            return store.setState({ ...store.getState(), x: store.getState().x + MOVE_OFFSET / store.getState().zoom });
         default:
             return store.getState();
     }

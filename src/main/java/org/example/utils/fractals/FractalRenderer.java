@@ -13,6 +13,8 @@ public class FractalRenderer {
     private final int height;
     private final Position position;
     private final double zoom;
+    private final double realPart;
+    private final double imaginaryPart;
     private final int maxIterations;
     private final int[] colors;
 
@@ -23,17 +25,21 @@ public class FractalRenderer {
         this.position = new Position(0, 0);
         this.zoom = 1;
         this.maxIterations = 5000;
+        this.realPart = 0;
+        this.imaginaryPart = 0;
 
         this.colors = new int[maxIterations + 1];
         this.generateColorPalette();
     }
 
-    public FractalRenderer(FractalType fractalType, int width, int height, Position position, double zoom, int maxIterations) {
+    public FractalRenderer(FractalType fractalType, int width, int height, Position position, double zoom, double realPart, double imaginaryPart, int maxIterations) {
         this.fractalType = fractalType;
         this.width = width;
         this.height = height;
         this.position = position;
         this.zoom = zoom;
+        this.realPart = realPart;
+        this.imaginaryPart = imaginaryPart;
         this.maxIterations = maxIterations;
 
         this.colors = new int[maxIterations + 1];
@@ -42,7 +48,7 @@ public class FractalRenderer {
 
     public BufferedImage generateImage() {
         FractalGenerator fractal = new FractalGenerator(this.fractalType, width, height);
-        List<List<Integer>> pixels = fractal.generatePixels(this.position.start, this.position.end,this.zoom);
+        List<List<Integer>> pixels = fractal.generatePixels(this.position.start, this.position.end,this.zoom, this.realPart, this.imaginaryPart);
 
         BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
         for (int y = 0; y < pixels.size(); y++) {

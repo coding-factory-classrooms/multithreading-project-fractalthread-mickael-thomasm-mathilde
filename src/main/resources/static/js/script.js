@@ -1,10 +1,10 @@
 const imageState = new Store({
-    type: FractalTypes.MANDELBROT,
+    type: FractalTypes.JULIA,
     x: 0,
     y: 0,
     zoom: 1,
-    move_step: 5,
-    zoom_step: 5,
+    r: -0.59999999999999,
+    i: 0.42999999999
 });
 let unsubscribeStateChange = null;
 
@@ -15,11 +15,22 @@ const canvasContext = canvas.getContext("2d");
 
 window.onload = () => {
     unsubscribeStateChange = imageState.subscribe((state) => {
-        getFractal(state.type, canvas.width,canvas.height, state.x, state.y, state.zoom);
+        console.log(state)
+        getFractal(
+            state.type,
+            { w: canvas.width, h: canvas.height },
+            { x: state.x, y: state.y, zoom: state.zoom },
+            { r: state.r, i: state.i }
+        );
     });
 
     resizeCanvas();
-    getFractal(imageState.getState().type, canvas.width,canvas.height);
+    getFractal(
+        imageState.getState().type,
+        { w: canvas.width, h: canvas.height },
+        { x: 0, y: 0, zoom: 1 },
+        { r: imageState.getState().r, i: imageState.getState().i }
+    );
 
     window.addEventListener("keyup", (event) => {
         switch (event.code) {
@@ -48,7 +59,12 @@ window.onload = () => {
 // resize the canvas to fill browser window dynamically
 window.addEventListener('resize', () => {
     resizeCanvas();
-    getFractal(imageState.getState().type, canvas.width,canvas.height);
+    getFractal(
+        imageState.getState().type,
+        { w: canvas.width, h: canvas.height },
+        { x: 0, y: 0, zoom: 1 },
+        { r: imageState.getState().r, i: imageState.getState().i }
+    );
 });
 
 window.onunload = () => {
