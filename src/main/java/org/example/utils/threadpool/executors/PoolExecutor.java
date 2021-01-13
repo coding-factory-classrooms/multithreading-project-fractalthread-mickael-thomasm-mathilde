@@ -9,19 +9,21 @@ import java.util.concurrent.*;
 public class PoolExecutor extends AbstractExecutorService {
     private final List<Thread> threads = new ArrayList<>();
     private final LinkedBlockingQueue<Runnable> queue = new LinkedBlockingQueue<>();
+    private final int nbThreads;
 
     public PoolExecutor(int nbThreads) {
-        for (int i = 0; i < nbThreads; i++) {
-            CustomThread t = new CustomThread(this);
-            t.setDaemon(false);
-            t.setPriority(Thread.NORM_PRIORITY);
-            threads.add(t);
-            t.start();
-        }
+
+        this.nbThreads = nbThreads;
     }
 
     public void execute(Runnable command) {
         queue.add(command);
+
+        if (threads.size() < this.nbThreads) {
+            CustomThread t = new CustomThread(this);
+            threads.add(t);
+            t.start();
+        }
     }
 
     @Override

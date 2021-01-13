@@ -8,8 +8,6 @@ import java.util.concurrent.Callable;
  * Sources: https://gist.github.com/dackerman/7bc682d41ce632602af9e1a9858c82fc, https://lodev.org/cgtutor/juliamandelbrot.html
  */
 public class Mandelbrot implements Fractal, Callable<List<Integer>>{
-    public static int MAX_ITERATIONS = 5000;
-
     private final FractalConf fractalConf;
     private final int y;
 
