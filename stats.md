@@ -1,8 +1,10 @@
 # Statistiques
 
-Statistiques pour une image de 2500 x 2000 sur 10 runs consécutives sans multithreading
+Statistiques pour une image de 2500 x 2000 sur 10 runs consécutives
 
-## Thomas G
+## Sans multithreading
+
+### Thomas G
 
 **OS:** Windows 10
 
@@ -10,7 +12,7 @@ Statistiques pour une image de 2500 x 2000 sur 10 runs consécutives sans multit
 
 **Mémoire:** 16 Go
 
-### Temps moyen: 22,929 secondes
+Temps moyen: **22,929 secondes**
 
 - 22975 ms
 - 22542 ms
@@ -23,14 +25,14 @@ Statistiques pour une image de 2500 x 2000 sur 10 runs consécutives sans multit
 - 23091 ms
 - 23026 ms
 
-## Mathilde
+### Mathilde
 **OS:** macOs Big Sur 11.1
 
 **Processeur:** 2,6 GHz Intel Core i7 quatre cœurs
 
 **Mémoire:** 16 Go 2133 MHz LPDDR3
 
-### Temps moyen: 42,403 secondes
+Temps moyen: **42,403 secondes**
 - 43035 ms
 - 43821 ms
 - 42736 ms
@@ -42,9 +44,9 @@ Statistiques pour une image de 2500 x 2000 sur 10 runs consécutives sans multit
 - 42045 ms
 - 42210 ms
 
-## Mike
+### Mike
 
-Temps moyen: 34,493 secondes
+Temps moyen: **34,493 secondes**
 
 - 34176 ms
 - 33526 ms
@@ -56,3 +58,21 @@ Temps moyen: 34,493 secondes
 - 33895 ms
 - 33584 ms
 - 33912 ms
+
+
+## Avec multithreading
+
+### Thomas G
+
+Temps moyen: **3,945 secondes**
+
+- 1490 ms
+- 4058 ms
+- 7713 ms
+- 4035 ms
+- 4039 ms
+- 4023 ms
+- 4014 ms
+- 2788 ms
+- 3285 ms
+- 4014 ms
