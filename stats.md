@@ -42,6 +42,19 @@ Statistiques pour une image de 2500 x 2000 sur 10 runs consécutives sans multit
 - 42045 ms
 - 42210 ms
 
+### Temps moyen multithread: 9,847 secondes
+
+- 10150 ms
+- 9906 ms
+- 15045 ms
+- 7602 ms
+- 7446 ms
+- 7476 ms
+- 9704 ms
+- 10000 ms
+- 10149 ms
+- 10999 ms
+
 ## Mike
 
 Temps moyen: 34,493 secondes
