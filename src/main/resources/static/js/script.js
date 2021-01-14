@@ -1,11 +1,12 @@
-const imageState = new Store({
+const initialState = {
     type: FractalTypes.MANDELBROT,
     x: 0,
     y: 0,
     zoom: 1,
     r: -0.59999999999999,
     i: 0.42999999999
-});
+};
+const imageState = new Store(initialState);
 let unsubscribeStateChange = null;
 let keyPressed = {};
 
@@ -32,7 +33,7 @@ window.onload = () => {
                     r: state.r,
                     i: state.i
                 },
-                easterEgg: true
+                easterEgg: state.easterEgg
             }
         );
     });
@@ -63,7 +64,8 @@ window.onload = () => {
                 complex: {
                     r: 0.285,
                     i: 0.0105
-                }
+                },
+                easterEgg: true
             });
             keyPressed = {};
         }
@@ -104,8 +106,8 @@ window.addEventListener('resize', () => {
             h: canvas.height,
             x: 0, y: 0, zoom: 1,
             complex: {
-                r: imageState.getState().r,
-                i: imageState.getState().i
+                r: initialState.r,
+                i: initialState.i
             }
         }
     )

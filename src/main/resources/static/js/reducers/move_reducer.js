@@ -19,7 +19,7 @@ function moveReducer(store, action, payload) {
         case MoveActions.RIGHT:
             return store.setState({ ...store.getState(), x: store.getState().x + MOVE_OFFSET / store.getState().zoom });
         case MoveActions.SET:
-            return store.setState({ ...store.getState(), x: payload.x, y: payload.y, zoom: payload.zoom, r: payload.complex.r, i: payload.complex.i });
+            return store.setState({ ...store.getState(), x: payload.x, y: payload.y, zoom: payload.zoom, r: payload.complex.r, i: payload.complex.i, easterEgg: payload.easterEgg });
         default:
             return store.getState();
     }
