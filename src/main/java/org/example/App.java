@@ -1,19 +1,22 @@
 package org.example;
 
+import org.example.controllers.FractalController;
+import org.example.controllers.HomeController;
 import org.example.core.Conf;
 import org.example.core.Template;
 import org.example.middlewares.LoggerMiddleware;
 import spark.Spark;
 
-import java.util.HashMap;
-
 public class App {
     public static void main(String[] args) {
+        HomeController homeController = new HomeController();
+        FractalController fractalController = new FractalController();
+
         initialize();
 
-        Spark.get("/", (req, res) -> {
-            return Template.render("home.html", new HashMap<>());
-        });
+        Spark.get("/", homeController::render);
+
+        Spark.get("/fractal", fractalController::render);
     }
 
     static void initialize() {
