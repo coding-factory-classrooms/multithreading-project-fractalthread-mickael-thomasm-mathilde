@@ -13,8 +13,8 @@ function zoomReducer(store, action) {
             ZOOM_OFFSET *= 2;
             return store.setState({ ...store.getState(), zoom });
         case ZoomActions.ZOOM_OUT:
+            ZOOM_OFFSET /= 2;
             zoom /= ZOOM_OFFSET;
-            ZOOM_OFFSET *= 2;
             return store.setState({ ...store.getState(), zoom });
         default:
             return store.state;
