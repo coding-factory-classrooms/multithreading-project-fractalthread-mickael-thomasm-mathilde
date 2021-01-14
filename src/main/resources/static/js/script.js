@@ -57,6 +57,7 @@ window.onload = () => {
         keyPressed[event.code] = true;
         if (keyPressed["ControlLeft"] && keyPressed["ShiftLeft"] && keyPressed["Digit2"]) {
             moveReducer(imageState, MoveActions.SET, {
+                type: FractalTypes.JULIA,
                 x: -0.006015625000000002,
                 y: -0.06617187499999999,
                 zoom: 128,
