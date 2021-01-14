@@ -32,8 +32,7 @@ window.onload = () => {
                 complex: {
                     r: state.r,
                     i: state.i
-                },
-                easterEgg: state.easterEgg
+                }
             }
         );
     });
@@ -64,8 +63,7 @@ window.onload = () => {
                 complex: {
                     r: 0.285,
                     i: 0.0105
-                },
-                easterEgg: true
+                }
             });
             keyPressed = {};
         }

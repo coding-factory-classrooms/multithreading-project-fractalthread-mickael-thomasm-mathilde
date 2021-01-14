@@ -14,8 +14,8 @@
  * @param configuration {FractalConfiguration}
  * @returns {Promise<void>} Resolve when the image is loaded in the canvas
  */
-async function getFractal(type, { w, h, x, y, zoom, complex, easterEgg = false }) {
-    const url = buildUrl(type, w, h, x, y, zoom, complex, easterEgg);
+async function getFractal(type, { w, h, x, y, zoom, complex }) {
+    const url = buildUrl(type, w, h, x, y, zoom, complex);
 
     loading.hidden = false;
     const response = await fetch(url.toString());
@@ -33,7 +33,7 @@ async function getFractal(type, { w, h, x, y, zoom, complex, easterEgg = false }
     }));
 }
 
-function buildUrl(type, w, h, x, y, zoom, complex, isEasterrEgg) {
+function buildUrl(type, w, h, x, y, zoom, complex) {
     const url = new URL("/fractal", window.location.origin);
     url.searchParams.append("type", type);
     url.searchParams.append("width", w);
@@ -47,6 +47,5 @@ function buildUrl(type, w, h, x, y, zoom, complex, isEasterrEgg) {
         url.searchParams.append("y", y);
         url.searchParams.append("zoom", zoom);
     }
-    url.searchParams.append("isEasterEgg", isEasterrEgg);
     return url;
 }
