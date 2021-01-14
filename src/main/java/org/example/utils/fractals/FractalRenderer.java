@@ -15,7 +15,6 @@ public class FractalRenderer {
     private final double imaginaryPart;
     private final int maxIterations;
     private final int[] colors;
-    private final boolean isEasterEgg;
 
     public FractalRenderer(int width, int height) {
         this.fractalType = FractalType.MANDELBROT;
@@ -26,13 +25,12 @@ public class FractalRenderer {
         this.maxIterations = 5000;
         this.realPart = 0;
         this.imaginaryPart = 0;
-        this.isEasterEgg = false;
 
         this.colors = new int[maxIterations + 1];
         this.generateColorPalette();
     }
 
-    public FractalRenderer(FractalType fractalType, int width, int height, Position position, double zoom, double realPart, double imaginaryPart, int maxIterations, boolean isEasterEgg) {
+    public FractalRenderer(FractalType fractalType, int width, int height, Position position, double zoom, double realPart, double imaginaryPart, int maxIterations) {
         this.fractalType = fractalType;
         this.width = width;
         this.height = height;
@@ -41,7 +39,6 @@ public class FractalRenderer {
         this.realPart = realPart;
         this.imaginaryPart = imaginaryPart;
         this.maxIterations = maxIterations;
-        this.isEasterEgg = isEasterEgg;
 
         this.colors = new int[maxIterations + 1];
         this.generateColorPalette();
@@ -59,7 +56,7 @@ public class FractalRenderer {
             }
         }
 
-        if (this.isEasterEgg) {
+        if (this.position.start == -0.006015625000000002 && this.position.end == -0.06617187499999999 && zoom == 128) {
             this.drawEasterEgg(image);
         }
 

@@ -28,7 +28,6 @@ public class FractalController implements HttpController {
         double i = Double.parseDouble(req.queryParamOrDefault("i", "0"));
         int width = Integer.parseInt(req.queryParamOrDefault("width", "1000"));
         int height = Integer.parseInt(req.queryParamOrDefault("height", "1000"));
-        boolean isEasterEgg = Boolean.parseBoolean(req.queryParamOrDefault("isEasterEgg", "false"));
 
         String key = String.format("%s_res_%dx%d_xPos_%f_yPos_%f_zoom_%f_r_%f_i_%f", fractalType, width, height, x, y, zoom, r, i);
         if (cache.contains(key)) {
@@ -43,8 +42,7 @@ public class FractalController implements HttpController {
             zoom,
             r,
             i,
-            5000,
-            isEasterEgg
+            5000
         );
         BufferedImage image = fractalRenderer.generateImage();
 
