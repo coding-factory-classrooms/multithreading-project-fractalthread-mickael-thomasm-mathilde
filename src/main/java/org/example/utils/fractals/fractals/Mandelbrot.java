@@ -23,7 +23,9 @@ public class Mandelbrot implements Fractal, Callable<List<Integer>>{
 
         pr = 1.5 * (pixelX - fractalConf.width / 2) / (0.5 * fractalConf.zoom * fractalConf.width) + fractalConf.moveX;
         pi = (pixelY - fractalConf.height / 2) / (0.5 * fractalConf.zoom * fractalConf.height) + fractalConf.moveY;
-        newRe = newIm = oldRe = oldIm = 0; //these should start at 0,0
+        newRe = 0.38499999;
+        newIm = -0.52;
+        oldRe = oldIm = 0; //these should start at 0,0
 
         int i;
         for(i = 0; i < fractalConf.maxIterations; i++)
